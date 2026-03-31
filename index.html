@@ -1232,7 +1232,7 @@ async function resetAll() {
 }
 
 // ══════════════════════════════
-// VOICE
+// VOICE — Safari iOS compatible
 // ══════════════════════════════
 let activeRec=null, activeBtn=null, activeTarget=null;
 function stopVoice() {
@@ -1240,24 +1240,42 @@ function stopVoice() {
   if(activeBtn){activeBtn.classList.remove('rec');activeBtn.textContent='🎙';activeBtn=null;}
   if(activeTarget){const s=document.getElementById('vs-'+activeTarget);if(s)s.classList.remove('show');activeTarget=null;}
 }
-function voice(id,btn) {
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){showToast('Voice not supported in this browser');return;}
-  if(activeRec){stopVoice();return;}
-  // Retry finding element in case of dynamic rendering
-  let ta=document.getElementById(id);
-  if(!ta){
-    setTimeout(()=>voice(id,btn),200);
-    return;
-  }
-  let rec; try{rec=new SR();}catch(e){showToast('Microphone unavailable');return;}
-  rec.continuous=true;rec.interimResults=true;rec.lang='en-US';
-  let final=ta.value||''; activeRec=rec;activeBtn=btn;activeTarget=id;
-  rec.onstart=()=>{btn.classList.add('rec');btn.textContent='⏹';const s=document.getElementById('vs-'+id);if(s)s.classList.add('show');};
-  rec.onresult=e=>{try{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=(final?' ':'')+e.results[i].transcript;else interim=e.results[i].transcript;}const t=document.getElementById(id);if(t)t.value=final+(interim?' '+interim:'');}catch(e){}};
-  rec.onend=()=>{const t=document.getElementById(id);if(t)t.value=final;stopVoice();};
-  rec.onerror=e=>{stopVoice();if(e.error==='not-allowed')showToast('Microphone access denied');else if(e.error!=='aborted'&&e.error!=='no-speech')showToast('Mic error — try again');};
-  try{rec.start();}catch(e){stopVoice();showToast('Could not start microphone');}
+function voice(id, btn) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) { showToast('Voice not supported — try Chrome'); return; }
+  if(activeRec) { stopVoice(); return; }
+  const ta = document.getElementById(id);
+  if(!ta) { showToast('Tap the text area first then try mic'); return; }
+  let rec;
+  try { rec = new SR(); } catch(e) { showToast('Microphone unavailable'); return; }
+  rec.continuous = false;
+  rec.interimResults = false;
+  rec.lang = 'en-US';
+  rec.maxAlternatives = 1;
+  activeRec = rec; activeBtn = btn; activeTarget = id;
+  const existingText = ta.value || '';
+  btn.classList.add('rec');
+  btn.textContent = '⏹';
+  const s = document.getElementById('vs-' + id);
+  if(s) s.classList.add('show');
+  rec.onresult = (e) => {
+    try {
+      const transcript = e.results[0][0].transcript;
+      if(transcript && transcript !== 'undefined') {
+        const t = document.getElementById(id);
+        if(t) t.value = existingText + (existingText ? ' ' : '') + transcript;
+      }
+    } catch(err) {}
+  };
+  rec.onend = () => { stopVoice(); };
+  rec.onerror = (e) => {
+    stopVoice();
+    if(e.error === 'not-allowed') showToast('Microphone access denied');
+    else if(e.error === 'no-speech') showToast('No speech detected — try again');
+    else if(e.error !== 'aborted') showToast('Mic error — try again');
+  };
+  rec.onnomatch = () => { stopVoice(); showToast('Could not understand — try again'); };
+  try { rec.start(); } catch(e) { stopVoice(); showToast('Could not start microphone'); }
 }
 
 // ══════════════════════════════
@@ -1278,6 +1296,33 @@ function runSplash() {
 // INIT
 // ══════════════════════════════
 async function init() {
+  // Handle OAuth callback from Google — session is in the URL hash
+  const hashParams = new URLSearchParams(window.location.hash.replace('#',''));
+  const accessToken = hashParams.get('access_token');
+  if(accessToken) {
+    // Let Supabase process the OAuth callback
+    await sb.auth.getSession();
+    // Clean up the URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  // Listen for auth state changes
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if(session && !U) {
+      U = session.user;
+      await loadProfile();
+      if(!profile || !profile.hd_type) {
+        go('screen-onboard');
+      } else {
+        applyHD();
+        await loadEntries();
+        loadHabits();
+        updateHome();
+        navHome();
+      }
+    }
+  });
+
   const { data } = await sb.auth.getSession();
   if(data.session) {
     U = data.session.user;
