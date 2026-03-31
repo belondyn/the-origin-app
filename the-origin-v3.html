@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Origin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --cream: #F9F6F0;
+  --cream-dark: #F0EBE1;
+  --cream-mid: #E8E0D0;
+  --gold: #B8965A;
+  --gold-light: #D4B483;
+  --gold-pale: #F0E6CC;
+  --charcoal: #1E1C18;
+  --charcoal-mid: #3D3A33;
+  --charcoal-soft: #6B6760;
+  --charcoal-muted: #9B9890;
+  --white: #FDFBF8;
+  --font-d: 'Cormorant Garamond', Georgia, serif;
+  --font-b: 'Jost', sans-serif;
+  --r: 16px;
+  --rs: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--cream); font-family: var(--font-b); color: var(--charcoal); min-height: 100vh; overflow-x: hidden; }
+.shell { max-width: 420px; margin: 0 auto; min-height: 100vh; background: var(--cream); }
+.screen { display: none; flex-direction: column; min-height: 100vh; }
+.screen.active { display: flex; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.scroll { flex:1; overflow-y:auto; padding:0 24px 110px; }
+.scroll::-webkit-scrollbar { display:none; }
+.status { display:flex; justify-content:space-between; padding:14px 24px 6px; font-size:11px; color:var(--charcoal-muted); letter-spacing:0.04em; }
+.topnav { display:flex; align-items:center; padding:14px 24px 0; gap:12px; }
+.back { font-family:var(--font-b); font-size:13px; color:var(--gold); cursor:pointer; letter-spacing:0.06em; text-transform:uppercase; background:none; border:none; padding:0; }
+.nav-title { font-family:var(--font-d); font-size:18px; font-weight:400; color:var(--charcoal); }
+.bnav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:420px; background:rgba(249,246,240,0.96); backdrop-filter:blur(12px); border-top:1px solid var(--cream-mid); display:flex; padding:8px 0 20px; z-index:100; }
+.nb { flex:1; background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 0; }
+.ni { font-size:16px; color:var(--charcoal-muted); }
+.nl { font-size:10px; color:var(--charcoal-muted); letter-spacing:0.08em; text-transform:uppercase; font-family:var(--font-b); }
+.nb.on .ni, .nb.on .nl { color:var(--gold); }
+.div { height:1px; background:var(--cream-mid); margin:20px 0; }
+.gdiv { height:1px; background:linear-gradient(to right,transparent,var(--gold-light),transparent); margin:20px 0; }
+.disp { font-family:var(--font-d); font-size:32px; font-weight:300; line-height:1.2; color:var(--charcoal); }
+.lbl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal-muted); font-weight:400; }
+.body-t { font-size:14px; line-height:1.7; color:var(--charcoal-soft); }
+.btn { width:100%; padding:16px; background:var(--charcoal); color:var(--cream); border:none; border-radius:var(--r); font-family:var(--font-b); font-size:13px; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-bottom:10px; }
+.btn:active { transform:scale(0.98); }
+.btn.gold { background:var(--gold); color:var(--white); }
+.btn.ghost { background:none; color:var(--charcoal-soft); border:1px solid var(--cream-mid); }
+.btn.dim { opacity:0.5; cursor:default; }
+.flbl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal-muted); margin-bottom:8px; display:block; }
+.finp { width:100%; border:1px solid var(--cream-mid); border-radius:var(--rs); padding:14px 16px; font-size:15px; font-family:var(--font-b); color:var(--charcoal); background:var(--white); outline:none; transition:border-color 0.2s; }
+.finp:focus { border-color:var(--gold-light); }
+.hd-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.hdo { border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 14px; cursor:pointer; background:var(--white); transition:all 0.2s; text-align:left; }
+.hdo:hover { border-color:var(--gold-light); }
+.hdo.sel { border-color:var(--gold); background:var(--gold-pale); }
+.hdo.sel .hdn { color:var(--gold); }
+.hdo.full { grid-column:1/-1; }
+.hdo.dash { border-style:dashed; }
+.hdn { font-family:var(--font-d); font-size:16px; font-weight:500; color:var(--charcoal); display:block; margin-bottom:4px; }
+.hdd { font-size:11px; color:var(--charcoal-muted); line-height:1.4; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.chip { padding:8px 16px; border:1px solid var(--cream-mid); border-radius:30px; font-size:13px; color:var(--charcoal-soft); cursor:pointer; background:var(--white); transition:all 0.15s; font-family:var(--font-b); }
+.chip.on { background:var(--gold-pale); color:var(--gold); border-color:var(--gold); }
+.tag { padding:7px 14px; border:1px solid var(--cream-mid); border-radius:30px; font-size:12px; color:var(--charcoal-soft); cursor:pointer; background:var(--white); transition:all 0.15s; }
+.tag.on { background:var(--cream-dark); color:var(--charcoal); border-color:var(--charcoal-muted); }
+
+/* PROGRESS BAR */
+.progress-wrap { padding:16px 24px 0; }
+.progress-track { height:3px; background:var(--cream-mid); border-radius:2px; margin-bottom:6px; }
+.progress-fill { height:3px; border-radius:2px; background:var(--gold); transition:width 0.4s ease; }
+.progress-label { font-size:11px; color:var(--charcoal-muted); letter-spacing:0.06em; display:flex; justify-content:space-between; }
+
+/* FLOW SCREEN */
+.flow-q { font-family:var(--font-d); font-size:26px; font-weight:300; color:var(--charcoal); line-height:1.3; margin-bottom:8px; }
+.flow-hint { font-size:13px; color:var(--charcoal-muted); line-height:1.6; margin-bottom:20px; font-style:italic; }
+.pinp { width:100%; border:1px solid var(--cream-mid); border-radius:var(--rs); padding:14px 16px; font-size:14px; font-family:var(--font-b); color:var(--charcoal); background:var(--white); resize:none; outline:none; line-height:1.6; transition:border-color 0.2s; min-height:100px; }
+.pinp:focus { border-color:var(--gold-light); }
+.vrow { display:flex; gap:10px; align-items:flex-start; }
+.vrow .pinp { flex:1; }
+.vbtn { flex-shrink:0; width:44px; height:44px; border-radius:50%; border:1px solid var(--cream-mid); background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:17px; color:var(--charcoal-muted); transition:all 0.2s; }
+.vbtn:hover { border-color:var(--gold-light); color:var(--gold); }
+.vbtn.rec { background:var(--gold-pale); border-color:var(--gold); color:var(--gold); animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(184,150,90,0.3);}50%{box-shadow:0 0 0 6px rgba(184,150,90,0);} }
+.vstatus { font-size:11px; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; margin-top:5px; display:none; }
+.vstatus.show { display:block; }
+.nudge { background:var(--gold-pale); border-left:2px solid var(--gold); border-radius:0 var(--rs) var(--rs) 0; padding:14px 16px; margin-bottom:22px; }
+.nudge-type { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+.nudge-text { font-family:var(--font-d); font-size:15px; color:var(--charcoal-mid); line-height:1.6; font-style:italic; }
+.home-date { font-size:12px; letter-spacing:0.08em; color:var(--charcoal-muted); text-transform:uppercase; margin-bottom:6px; }
+.momentum { font-family:var(--font-d); font-size:15px; color:var(--charcoal-soft); font-style:italic; margin-bottom:22px; line-height:1.5; }
+.practice-card { background:var(--charcoal); border-radius:var(--r); padding:24px 22px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; }
+.practice-card:active { transform:scale(0.99); }
+.practice-card .pc-label { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-light); margin-bottom:8px; }
+.practice-card .pc-title { font-family:var(--font-d); font-size:30px; font-weight:300; color:var(--cream); margin-bottom:4px; line-height:1.2; }
+.practice-card .pc-sub { font-size:12px; color:var(--charcoal-muted); margin-top:6px; }
+.practice-card.eve { background:var(--charcoal-mid); }
+.quick-card { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 20px; cursor:pointer; transition:all 0.2s; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+.quick-card:hover { border-color:var(--gold-light); }
+.quick-card .qc-title { font-family:var(--font-d); font-size:18px; font-weight:500; color:var(--charcoal); }
+.quick-card .qc-sub { font-size:12px; color:var(--charcoal-muted); margin-top:2px; }
+.quick-card .qc-arrow { font-size:18px; color:var(--gold-light); }
+.streak-row { display:flex; gap:6px; margin-bottom:22px; }
+.sday { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:11px; letter-spacing:0.04em; }
+.sday.done { background:var(--charcoal); color:var(--cream); }
+.sday.today { background:var(--gold-pale); color:var(--gold); border:1px solid var(--gold-light); }
+.sday.empty { background:var(--cream-dark); color:var(--charcoal-muted); }
+.icard { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 18px; margin-bottom:10px; cursor:pointer; transition:all 0.2s; }
+.icard:hover { border-color:var(--gold-light); }
+.icard .it { font-family:var(--font-d); font-size:17px; font-weight:500; color:var(--charcoal); margin-bottom:4px; }
+.icard .ib { font-size:13px; color:var(--charcoal-soft); line-height:1.6; }
+.eitem { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:14px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-start; }
+.edate { font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
+.emode { font-family:var(--font-d); font-size:16px; font-weight:500; color:var(--charcoal); margin-bottom:3px; }
+.eprev { font-size:13px; color:var(--charcoal-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
+.edel { background:none; border:none; cursor:pointer; color:var(--charcoal-muted); font-size:20px; padding:0 0 0 10px; line-height:1; flex-shrink:0; }
+.hgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:22px; }
+.hitem { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 10px; text-align:center; cursor:pointer; transition:all 0.2s; }
+.hitem:active { transform:scale(0.96); }
+.hitem.done { background:var(--charcoal); border-color:var(--charcoal); }
+.hicon { font-size:20px; margin-bottom:6px; display:block; color:var(--charcoal-muted); }
+.hlbl { font-size:11px; color:var(--charcoal-soft); letter-spacing:0.04em; }
+.hitem.done .hicon { color:var(--gold-light); }
+.hitem.done .hlbl { color:var(--cream); }
+.hitem.done.auto .hicon { color:var(--charcoal-muted); }
+.brow { margin-bottom:14px; }
+.bmeta { display:flex; justify-content:space-between; font-size:12px; color:var(--charcoal-soft); margin-bottom:5px; }
+.btrack { height:4px; background:var(--cream-mid); border-radius:2px; }
+.bfill { height:4px; border-radius:2px; background:var(--charcoal); transition:width 0.8s ease; }
+.bfill.g { background:var(--gold); }
+.bfill.b { background:#C4967A; }
+.hcard { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:18px; margin-bottom:12px; position:relative; }
+.hc-lbl { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+.hc-title { font-family:var(--font-d); font-size:18px; font-weight:500; color:var(--charcoal); margin-bottom:4px; }
+.hc-body { font-size:13px; color:var(--charcoal-soft); line-height:1.5; }
+.soon { position:absolute; top:14px; right:14px; background:var(--cream-dark); color:var(--charcoal-muted); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:20px; }
+.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--charcoal); color:var(--cream); padding:10px 24px; border-radius:30px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0; transition:all 0.3s; z-index:300; pointer-events:none; white-space:nowrap; }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.ob-logo { font-family:var(--font-d); font-size:13px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:40px; }
+.ob-tag { font-family:var(--font-d); font-size:36px; font-weight:300; line-height:1.3; color:var(--charcoal); margin-bottom:16px; }
+.ob-sub { font-size:14px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:36px; }
+#screen-splash { background:var(--cream); justify-content:center; align-items:center; text-align:center; }
+.sw { font-family:var(--font-d); font-size:52px; font-weight:300; color:var(--charcoal); opacity:0; transition:opacity 0.8s ease; line-height:1.2; }
+.sw.show { opacity:1; }
+.sw-sub { font-family:var(--font-d); font-size:17px; font-style:italic; color:var(--charcoal-soft); opacity:0; transition:opacity 0.8s ease; margin-top:14px; line-height:1.6; }
+.sw-sub.show { opacity:1; }
+.sw-btn { opacity:0; transition:opacity 0.8s ease; margin-top:48px; }
+.sw-btn.show { opacity:1; }
+.confirm { text-align:center; padding:60px 24px; }
+.confirm-icon { font-family:var(--font-d); font-size:52px; color:var(--gold-light); margin-bottom:16px; }
+.confirm-title { font-family:var(--font-d); font-size:30px; font-weight:300; color:var(--charcoal); margin-bottom:8px; }
+.confirm-sub { font-size:14px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:32px; }
+
+/* AUTH */
+.auth-wrap { padding:48px 24px; }
+.auth-tab { display:flex; gap:0; margin-bottom:28px; border:1px solid var(--cream-mid); border-radius:var(--rs); overflow:hidden; }
+.auth-tab button { flex:1; padding:12px; background:none; border:none; font-family:var(--font-b); font-size:13px; letter-spacing:0.06em; text-transform:uppercase; cursor:pointer; color:var(--charcoal-muted); transition:all 0.2s; }
+.auth-tab button.on { background:var(--charcoal); color:var(--cream); }
+.auth-error { font-size:13px; color:#C4967A; margin-bottom:12px; min-height:20px; }
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="toast" id="toast">Saved ✦</div>
+
+<!-- ══════════════════════
+  SPLASH
+══════════════════════ -->
+<div class="screen active" id="screen-splash">
+  <div style="padding:0 40px;width:100%;">
+    <div class="sw" id="sw1">The</div>
+    <div class="sw" id="sw2">Origin.</div>
+    <div class="sw-sub" id="sw3">Designed in frequency.<br>Built for your quantum leap.</div>
+    <div class="sw-btn" id="sw4">
+      <button class="btn gold" onclick="go('screen-auth')" style="max-width:260px;margin:0 auto;display:block;">Begin ✦</button>
+      <p style="font-size:12px;color:var(--charcoal-muted);margin-top:12px;letter-spacing:0.06em;">Your expansion is already coded in.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  AUTH (Login / Signup)
+══════════════════════ -->
+<div class="screen" id="screen-auth">
+  <div class="auth-wrap">
+    <div class="ob-logo">The Origin</div>
+    <div class="ob-tag">Welcome<br><em>to your field.</em></div>
+    <p class="ob-sub">Your practice lives here — accessible from any device, always waiting for you.</p>
+
+    <div class="auth-tab">
+      <button class="on" id="tab-login" onclick="switchTab('login')">Sign in</button>
+      <button id="tab-signup" onclick="switchTab('signup')">Create account</button>
+    </div>
+
+    <div id="auth-error" class="auth-error"></div>
+
+    <div id="form-login">
+      <div style="margin-bottom:16px;">
+        <label class="flbl">Email</label>
+        <input class="finp" type="email" id="login-email" placeholder="your@email.com" />
+      </div>
+      <div style="margin-bottom:24px;">
+        <label class="flbl">Password</label>
+        <input class="finp" type="password" id="login-password" placeholder="••••••••" />
+      </div>
+      <button class="btn gold" onclick="doLogin()">Sign in ✦</button>
+    </div>
+
+    <div id="form-signup" style="display:none;">
+      <div style="margin-bottom:16px;">
+        <label class="flbl">Your first name</label>
+        <input class="finp" type="text" id="signup-name" placeholder="Enter your name" />
+      </div>
+      <div style="margin-bottom:16px;">
+        <label class="flbl">Email</label>
+        <input class="finp" type="email" id="signup-email" placeholder="your@email.com" />
+      </div>
+      <div style="margin-bottom:24px;">
+        <label class="flbl">Password</label>
+        <input class="finp" type="password" id="signup-password" placeholder="Min 6 characters" />
+      </div>
+      <button class="btn gold" onclick="doSignup()">Create my account ✦</button>
+    </div>
+
+    <p style="font-size:12px;color:var(--charcoal-muted);text-align:center;margin-top:14px;">Your data is saved securely to your account</p>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  ONBOARD HD TYPE
+══════════════════════ -->
+<div class="screen" id="screen-onboard">
+  <div class="scroll" style="padding-top:48px;">
+    <div class="ob-logo">The Origin</div>
+    <div class="ob-tag">Your Human<br><em>Design type.</em></div>
+    <p class="ob-sub">This field personalizes to your energy. The more honest you are, the more precisely it will meet you.</p>
+    <p style="font-size:12px;color:var(--charcoal-muted);margin-bottom:14px;line-height:1.6;">Don't know yours yet? <a href="https://www.humandesignamerica.com/" target="_blank" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);">Get your free chart here</a> — look for Type and Authority.</p>
+    <div class="hd-grid" style="margin-bottom:24px;">
+      <div class="hdo" onclick="pickHD(this,'Generator')"><span class="hdn">Generator</span><span class="hdd">Respond &amp; build. Satisfaction is your signal.</span></div>
+      <div class="hdo" onclick="pickHD(this,'Manifesting Generator')"><span class="hdn">Mani-Gen</span><span class="hdd">Multi-passionate. Follow what energizes.</span></div>
+      <div class="hdo" onclick="pickHD(this,'Projector')"><span class="hdn">Projector</span><span class="hdd">Guide &amp; see clearly. Invitation is your door.</span></div>
+      <div class="hdo" onclick="pickHD(this,'Manifestor')"><span class="hdn">Manifestor</span><span class="hdd">Initiate &amp; inform. Impact is your nature.</span></div>
+      <div class="hdo full" onclick="pickHD(this,'Reflector')"><span class="hdn">Reflector</span><span class="hdd">Sense the field. Lunar rhythm is your guide.</span></div>
+      <div class="hdo full dash" onclick="pickHD(this,'Unknown')"><span class="hdn" style="font-style:italic;">I don't know my type yet</span><span class="hdd">No problem — we'll use universal prompts and you can update this anytime.</span></div>
+    </div>
+    <button class="btn gold" onclick="toAuthority()">Continue ✦</button>
+    <p style="font-size:12px;color:var(--charcoal-muted);text-align:center;margin-top:10px;">Step 1 of 2</p>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  ONBOARD AUTHORITY
+══════════════════════ -->
+<div class="screen" id="screen-authority">
+  <div class="scroll" style="padding-top:48px;">
+    <div class="ob-logo">The Origin</div>
+    <div class="ob-tag">Your inner<br><em>authority.</em></div>
+    <p class="ob-sub">This is how you make decisions that are truly yours. Your built-in guidance system — and it changes everything.</p>
+    <p style="font-size:12px;color:var(--charcoal-muted);margin-bottom:14px;line-height:1.6;">Find this on your chart at <a href="https://www.humandesignamerica.com/" target="_blank" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-light);">humandesignamerica.com</a> under "Authority."</p>
+    <div id="auth-options" class="hd-grid" style="margin-bottom:24px;"></div>
+    <button class="btn gold" onclick="doFinalize()">Enter my field ✦</button>
+    <button class="btn ghost" onclick="skipAuth()">I'll add this later</button>
+    <p style="font-size:12px;color:var(--charcoal-muted);text-align:center;margin-top:6px;">Step 2 of 2</p>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  HOME MORNING
+══════════════════════ -->
+<div class="screen" id="screen-home-morning">
+  <div class="status"><span id="morn-time">9:41</span><span>✦ ✦ ✦</span></div>
+  <div class="scroll">
+    <p class="home-date" id="morn-date">Monday · March 30</p>
+    <div class="disp" style="margin-bottom:6px;" id="morn-greeting">Good morning</div>
+    <p class="momentum" id="morn-momentum">Your field is ready.</p>
+
+    <div class="nudge">
+      <div class="nudge-type" id="morn-hd-type">Your design</div>
+      <div class="nudge-text" id="morn-hd-nudge">Notice what you're responding to today. Satisfaction is always the signal.</div>
+    </div>
+
+    <div class="practice-card" onclick="startMorning()">
+      <div class="pc-label">Morning activation</div>
+      <div class="pc-title">Start your<br>practice ✦</div>
+      <div class="pc-sub">Guided · screen by screen · 3 min</div>
+    </div>
+
+    <div class="quick-card" onclick="go('screen-processing')">
+      <div><div class="qc-title">I need to express something</div><div class="qc-sub">Processing mode · no filter</div></div>
+      <div class="qc-arrow">→</div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;background:var(--white);border:1px solid var(--cream-mid);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <input type="text" id="home-win-m" placeholder="Log a quick win... ✦" style="flex:1;border:none;background:none;font-family:var(--font-b);font-size:14px;color:var(--charcoal);outline:none;" />
+      <button onclick="saveHomeWin('home-win-m')" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:20px;padding:0;">✦</button>
+    </div>
+
+    <div class="gdiv"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="lbl">Recent entries</div>
+      <button onclick="go('screen-settings')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--charcoal-muted);letter-spacing:0.06em;text-transform:uppercase;">Settings</button>
+    </div>
+    <div id="home-entries-m"><p class="body-t" style="color:var(--charcoal-muted);">Your entries will appear here.</p></div>
+  </div>
+  <div class="bnav">
+    <button class="nb on" onclick="navHome(this)"><span class="ni">⌂</span><span class="nl">Home</span></button>
+    <button class="nb" onclick="nav('screen-habits',this)"><span class="ni">◎</span><span class="nl">Habits</span></button>
+    <button class="nb" onclick="nav('screen-insights',this)"><span class="ni">≋</span><span class="nl">Insights</span></button>
+    <button class="nb" onclick="nav('screen-support',this)"><span class="ni">✦</span><span class="nl">Support</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  HOME EVENING
+══════════════════════ -->
+<div class="screen" id="screen-home-evening">
+  <div class="status"><span id="eve-time">9:41</span><span>✦ ✦ ✦</span></div>
+  <div class="scroll">
+    <p class="home-date" id="eve-date">Monday · March 30</p>
+    <div class="disp" style="margin-bottom:6px;" id="eve-greeting">Good evening</div>
+    <p class="momentum" id="eve-momentum">Your field doesn't miss a thing.</p>
+
+    <div class="nudge">
+      <div class="nudge-type" id="eve-hd-type">Your design</div>
+      <div class="nudge-text" id="eve-hd-nudge">Before you close this day, let what wants to land, land.</div>
+    </div>
+
+    <div class="practice-card eve" onclick="startEvening()">
+      <div class="pc-label">Evening integration</div>
+      <div class="pc-title">Close your<br>day ✦</div>
+      <div class="pc-sub">Guided · screen by screen · 3 min</div>
+    </div>
+
+    <div class="quick-card" onclick="go('screen-processing')">
+      <div><div class="qc-title">I need to express something</div><div class="qc-sub">Processing mode · no filter</div></div>
+      <div class="qc-arrow">→</div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;background:var(--white);border:1px solid var(--cream-mid);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <input type="text" id="home-win-e" placeholder="Log a quick win... ✦" style="flex:1;border:none;background:none;font-family:var(--font-b);font-size:14px;color:var(--charcoal);outline:none;" />
+      <button onclick="saveHomeWin('home-win-e')" style="background:none;border:none;cursor:pointer;color:var(--gold);font-size:20px;padding:0;">✦</button>
+    </div>
+
+    <div class="gdiv"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="lbl">Recent entries</div>
+      <button onclick="go('screen-settings')" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--charcoal-muted);letter-spacing:0.06em;text-transform:uppercase;">Settings</button>
+    </div>
+    <div id="home-entries-e"><p class="body-t" style="color:var(--charcoal-muted);">Your entries will appear here.</p></div>
+  </div>
+  <div class="bnav">
+    <button class="nb on" onclick="navHome(this)"><span class="ni">⌂</span><span class="nl">Home</span></button>
+    <button class="nb" onclick="nav('screen-habits',this)"><span class="ni">◎</span><span class="nl">Habits</span></button>
+    <button class="nb" onclick="nav('screen-insights',this)"><span class="ni">≋</span><span class="nl">Insights</span></button>
+    <button class="nb" onclick="nav('screen-support',this)"><span class="ni">✦</span><span class="nl">Support</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  MORNING FLOW SCREEN
+══════════════════════ -->
+<div class="screen" id="screen-morning-flow">
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="mf-progress" style="width:10%"></div></div>
+    <div class="progress-label"><span id="mf-step-label">Step 1 of 9</span><span id="mf-step-name">Arriving</span></div>
+  </div>
+  <div class="topnav" style="padding-top:10px;">
+    <button class="back" onclick="confirmExit()">← exit</button>
+  </div>
+  <div class="scroll" style="padding-top:20px;" id="mf-content"></div>
+</div>
+
+<!-- ══════════════════════
+  EVENING FLOW SCREEN
+══════════════════════ -->
+<div class="screen" id="screen-evening-flow">
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="ef-progress" style="width:10%"></div></div>
+    <div class="progress-label"><span id="ef-step-label">Step 1 of 8</span><span id="ef-step-name">Arriving</span></div>
+  </div>
+  <div class="topnav" style="padding-top:10px;">
+    <button class="back" onclick="confirmExit()">← exit</button>
+  </div>
+  <div class="scroll" style="padding-top:20px;" id="ef-content"></div>
+</div>
+
+<!-- ══════════════════════
+  PROCESSING
+══════════════════════ -->
+<div class="screen" id="screen-processing">
+  <div class="topnav"><button class="back" onclick="navHome()">← home</button><span class="nav-title">Processing</span></div>
+  <div class="scroll" style="padding-top:16px;">
+    <p class="lbl" style="margin:8px 0 4px;">Real life mode</p>
+    <p style="font-family:var(--font-d);font-size:22px;color:var(--charcoal);margin-bottom:6px;"><em>No performance. Just honest expression.</em></p>
+    <p class="body-t" style="margin-bottom:22px;">This is a no-filter zone. What's here is valid, whatever it is.</p>
+    <div class="lbl" style="margin-bottom:10px;">What's present right now?</div>
+    <div class="chips" id="proc-chips">
+      <span class="chip" onclick="tog(this)">Anxious</span><span class="chip" onclick="tog(this)">Heavy</span><span class="chip" onclick="tog(this)">Frustrated</span><span class="chip" onclick="tog(this)">Confused</span><span class="chip" onclick="tog(this)">Tired</span><span class="chip" onclick="tog(this)">Sad</span><span class="chip" onclick="tog(this)">Overwhelmed</span><span class="chip" onclick="tog(this)">Numb</span><span class="chip" onclick="tog(this)">Tender</span><span class="chip" onclick="tog(this)">Resistant</span><span class="chip" onclick="tog(this)">Hopeful</span><span class="chip" onclick="tog(this)">Grateful</span><span class="chip" onclick="tog(this)">Clear</span><span class="chip" onclick="tog(this)">Excited</span><span class="chip" onclick="tog(this)">Energized</span><span class="chip" onclick="tog(this)">Peaceful</span><span class="chip" onclick="tog(this)">Inspired</span><span class="chip" onclick="tog(this)">In flow</span><span class="chip" onclick="tog(this)">Uncertain</span><span class="chip" onclick="tog(this)">Angry</span>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="font-family:var(--font-d);font-size:20px;color:var(--charcoal);margin-bottom:10px;">What's actually happening right now?</div>
+      <div class="vrow"><textarea class="pinp" id="pr-what" placeholder="No filter needed here..." rows="4"></textarea><button class="vbtn" onclick="voice('pr-what',this)">🎙</button></div>
+      <div class="vstatus" id="vs-pr-what">Listening…</div>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="font-family:var(--font-d);font-size:20px;color:var(--charcoal);margin-bottom:10px;">The story I'm telling about it:</div>
+      <div class="vrow"><textarea class="pinp" id="pr-story" placeholder="The meaning I'm making..."></textarea><button class="vbtn" onclick="voice('pr-story',this)">🎙</button></div>
+      <div class="vstatus" id="vs-pr-story">Listening…</div>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="font-family:var(--font-d);font-size:20px;color:var(--charcoal);margin-bottom:10px;">What do I actually need right now?</div>
+      <div class="chips"><span class="chip" onclick="tog(this)">Rest</span><span class="chip" onclick="tog(this)">Space</span><span class="chip" onclick="tog(this)">Clarity</span><span class="chip" onclick="tog(this)">Support</span><span class="chip" onclick="tog(this)">Movement</span><span class="chip" onclick="tog(this)">To be heard</span><span class="chip" onclick="tog(this)">Silence</span><span class="chip" onclick="tog(this)">Connection</span><span class="chip" onclick="tog(this)">Permission</span><span class="chip" onclick="tog(this)">Play</span></div>
+      <textarea class="pinp" id="pr-need-other" placeholder="Something else? Write it here..." style="margin-top:8px;min-height:54px;"></textarea>
+    </div>
+    <div class="nudge">
+      <div class="nudge-type" id="proc-hd-type">Your design</div>
+      <div class="nudge-text" id="proc-hd-text">Whatever is present is valid. You don't need to fix it to feel it.</div>
+    </div>
+    <button class="btn gold" onclick="saveProcessing('support')">Save + get support →</button>
+    <button class="btn ghost" onclick="saveProcessing('save')">Just save this</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  TAGS
+══════════════════════ -->
+<div class="screen" id="screen-tags">
+  <div class="topnav"><button class="back" onclick="navHome()">← home</button><span class="nav-title">Tag your entry</span></div>
+  <div class="scroll" style="padding-top:20px;">
+    <p class="body-t" style="margin-bottom:16px;">What areas does this touch?</p>
+    <div class="chips" id="tag-chips">
+      <span class="tag" onclick="tog(this)">Business</span><span class="tag" onclick="tog(this)">Money</span><span class="tag" onclick="tog(this)">Relationships</span><span class="tag" onclick="tog(this)">Motherhood</span><span class="tag" onclick="tog(this)">Health</span><span class="tag" onclick="tog(this)">Purpose</span><span class="tag" onclick="tog(this)">Body</span><span class="tag" onclick="tog(this)">Creativity</span><span class="tag" onclick="tog(this)">Spirituality</span><span class="tag" onclick="tog(this)">Freedom</span><span class="tag" onclick="tog(this)">Identity</span>
+    </div>
+    <div class="gdiv" style="margin:24px 0;"></div>
+    <div style="font-family:var(--font-d);font-size:20px;color:var(--charcoal);margin-bottom:6px;">Do you want support with this?</div>
+    <p class="body-t" style="margin-bottom:20px;">Sometimes expression is enough. Sometimes something more wants to move.</p>
+    <button class="btn gold" onclick="go('screen-support')">Yes — receive guidance ✦</button>
+    <button class="btn ghost" onclick="navHome()">Just save it</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  COMPLETION
+══════════════════════ -->
+<div class="screen" id="screen-complete">
+  <div class="scroll">
+    <div class="confirm">
+      <div class="confirm-icon" id="complete-icon">✦</div>
+      <div class="confirm-title" id="complete-title">You activated your field.</div>
+      <p class="confirm-sub" id="complete-sub">Your practice is complete. The field received everything.</p>
+      <button class="btn gold" onclick="navHome()">Return home</button>
+      <button class="btn ghost" onclick="go('screen-support')">Get support</button>
+      <div class="gdiv"></div>
+      <p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;" id="complete-hd-msg">Your consistency is the frequency.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  HABITS
+══════════════════════ -->
+<div class="screen" id="screen-habits">
+  <div class="status"><span id="hab-time">9:41</span><span>✦ ✦ ✦</span></div>
+  <div class="scroll">
+    <div class="disp" style="margin-top:20px;">Momentum</div>
+    <p class="home-date" id="hab-streak" style="margin-top:4px;margin-bottom:16px;">Start your streak today</p>
+    <div class="nudge">
+      <div class="nudge-type" id="hab-hd-type">Your design</div>
+      <div class="nudge-text" id="hab-hd-text">Track what gave you energy today, not just what you completed.</div>
+    </div>
+    <div class="lbl" style="margin-bottom:12px;">Today's practices</div>
+    <div class="hgrid">
+      <div class="hitem" id="h0" onclick="toggleH(0)"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem done auto" id="h1" onclick="toggleH(1)"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
+      <div class="hitem" id="h2" onclick="toggleH(2)"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
+      <div class="hitem" id="h3" onclick="toggleH(3)"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
+      <div class="hitem" id="h4" onclick="toggleH(4)"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
+      <div class="hitem" id="h5" onclick="toggleH(5)"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+    </div>
+    <div class="lbl" style="margin-bottom:12px;">This week's alignment</div>
+    <div class="brow"><div class="bmeta"><span id="bl1">Energy followed</span><span>—</span></div><div class="btrack"><div class="bfill g" style="width:0%"></div></div></div>
+    <div class="brow"><div class="bmeta"><span id="bl2">Honored your design</span><span>—</span></div><div class="btrack"><div class="bfill" style="width:0%"></div></div></div>
+    <div class="brow"><div class="bmeta"><span id="bl3">Released what wasn't yours</span><span>—</span></div><div class="btrack"><div class="bfill b" style="width:0%"></div></div></div>
+    <div class="gdiv"></div>
+    <div class="lbl" style="margin-bottom:10px;">Today's win</div>
+    <div style="margin-bottom:20px;">
+      <div class="vrow"><textarea class="pinp" id="win-input" placeholder="What felt aligned today?"></textarea><button class="vbtn" onclick="voice('win-input',this)">🎙</button></div>
+      <div class="vstatus" id="vs-win-input">Listening…</div>
+    </div>
+    <button class="btn" onclick="saveHabit()">Save ✦</button>
+  </div>
+  <div class="bnav">
+    <button class="nb" onclick="navHome(this)"><span class="ni">⌂</span><span class="nl">Home</span></button>
+    <button class="nb on" onclick="nav('screen-habits',this)"><span class="ni">◎</span><span class="nl">Habits</span></button>
+    <button class="nb" onclick="nav('screen-insights',this)"><span class="ni">≋</span><span class="nl">Insights</span></button>
+    <button class="nb" onclick="nav('screen-support',this)"><span class="ni">✦</span><span class="nl">Support</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  INSIGHTS
+══════════════════════ -->
+<div class="screen" id="screen-insights">
+  <div class="status"><span>✦</span><span>✦ ✦ ✦</span></div>
+  <div class="scroll">
+    <div class="disp" style="margin-top:20px;">Evidence</div>
+    <p class="home-date" style="margin-top:4px;margin-bottom:20px;">Your field, reflected back</p>
+    <div style="background:var(--charcoal);border-radius:var(--r);padding:20px;margin-bottom:22px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px;">Your field today</div>
+      <div style="font-family:var(--font-d);font-size:18px;font-weight:300;color:var(--cream);line-height:1.6;font-style:italic;" id="ins-reflection">Keep showing up. Your field is always receiving, even when you can't see it yet.</div>
+    </div>
+    <div style="margin-bottom:22px;">
+      <div class="lbl" style="margin-bottom:10px;">Capture a win right now</div>
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <textarea class="pinp" id="quick-win-input" placeholder="Something shifted, arrived, or felt aligned..." style="min-height:54px;flex:1;"></textarea>
+        <button onclick="saveQuickWin()" style="flex-shrink:0;width:44px;height:44px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;font-size:18px;color:white;display:flex;align-items:center;justify-content:center;">✦</button>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="lbl">Wins &amp; evidence</div>
+      <div id="wins-count" style="font-size:11px;color:var(--gold);letter-spacing:0.06em;"></div>
+    </div>
+    <div id="wins-wall"><div style="background:var(--cream-dark);border-radius:var(--r);padding:20px;text-align:center;"><p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;">Your wins will live here — every proud moment, manifestation evidence, and aligned experience you log.</p></div></div>
+    <div class="gdiv"></div>
+    <div class="lbl" style="margin-bottom:12px;">Your momentum</div>
+    <div class="brow"><div class="bmeta"><span>Morning practices</span><span id="ins-m">—</span></div><div class="btrack"><div class="bfill g" id="ins-mf" style="width:0%"></div></div></div>
+    <div class="brow"><div class="bmeta"><span>Evening practices</span><span id="ins-e">—</span></div><div class="btrack"><div class="bfill" id="ins-ef" style="width:0%"></div></div></div>
+    <div class="brow"><div class="bmeta"><span>Processing entries</span><span id="ins-p">—</span></div><div class="btrack"><div class="bfill b" id="ins-pf" style="width:0%"></div></div></div>
+    <div class="gdiv"></div>
+    <div class="lbl" style="margin-bottom:12px;">What's emerging</div>
+    <div id="ins-patterns"><div class="icard"><div class="it">Keep showing up</div><div class="ib">As your entries build, patterns will surface here. The field is always tracking, always reflecting.</div></div></div>
+    <div style="height:20px;"></div>
+    <button class="btn gold" onclick="nav('screen-support',null)">Get support on these patterns →</button>
+  </div>
+  <div class="bnav">
+    <button class="nb" onclick="navHome(this)"><span class="ni">⌂</span><span class="nl">Home</span></button>
+    <button class="nb" onclick="nav('screen-habits',this)"><span class="ni">◎</span><span class="nl">Habits</span></button>
+    <button class="nb on" onclick="nav('screen-insights',this)"><span class="ni">≋</span><span class="nl">Insights</span></button>
+    <button class="nb" onclick="nav('screen-support',this)"><span class="ni">✦</span><span class="nl">Support</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  SUPPORT
+══════════════════════ -->
+<div class="screen" id="screen-support">
+  <div class="status"><span>✦</span><span>✦ ✦ ✦</span></div>
+  <div class="scroll">
+    <div class="disp" style="margin-top:20px;">Support</div>
+    <p class="home-date" style="margin-top:4px;margin-bottom:16px;">Recommended based on your design</p>
+    <div class="nudge">
+      <div class="nudge-type" id="sup-hd-type">Your design</div>
+      <div class="nudge-text" id="sup-hd-text">Your field is pointing somewhere. Trust what wants to surface.</div>
+    </div>
+    <div style="background:var(--charcoal);border-radius:var(--r);padding:20px;margin-bottom:20px;text-align:center;">
+      <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px;">Unlock the full experience</div>
+      <div style="font-family:var(--font-d);font-size:24px;font-weight:300;color:var(--cream);margin-bottom:6px;">The Origin · Full Access</div>
+      <p style="font-size:13px;color:var(--charcoal-muted);line-height:1.6;margin-bottom:16px;">Personalized clearings, guided meditations, and healing sessions — all calibrated to your Human Design type.</p>
+      <button class="btn gold" style="margin-bottom:0;">Subscribe to unlock ✦</button>
+    </div>
+    <div class="lbl" style="margin-bottom:12px;">What unlocks for you</div>
+    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl" id="sup-lbl1">Clearing · your type</div><div class="hc-title" id="sup-t1">Energy reset</div><div class="hc-body" id="sup-b1">A guided clearing calibrated to your Human Design type — releasing what doesn't belong to you and returning to your natural frequency.</div></div>
+    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl" id="sup-lbl2">Meditation · your type</div><div class="hc-title" id="sup-t2">Activation meditation</div><div class="hc-body" id="sup-b2">A guided meditation built around how your design receives, processes, and expands.</div></div>
+    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl">Identity activation</div><div class="hc-title">Who you are becoming</div><div class="hc-body">10 identity statements calibrated to your type. Read aloud to rewire the field.</div></div>
+    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl">Pattern healing</div><div class="hc-title">What your field reveals</div><div class="hc-body" id="sup-b3">As your entries build, personalized healing sessions generate from your actual patterns.</div></div>
+    <div class="gdiv"></div>
+    <button class="btn gold">Subscribe to unlock ✦</button>
+    <button class="btn ghost" onclick="navHome()">Return home</button>
+  </div>
+  <div class="bnav">
+    <button class="nb" onclick="navHome(this)"><span class="ni">⌂</span><span class="nl">Home</span></button>
+    <button class="nb" onclick="nav('screen-habits',this)"><span class="ni">◎</span><span class="nl">Habits</span></button>
+    <button class="nb" onclick="nav('screen-insights',this)"><span class="ni">≋</span><span class="nl">Insights</span></button>
+    <button class="nb on" onclick="nav('screen-support',this)"><span class="ni">✦</span><span class="nl">Support</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  SETTINGS
+══════════════════════ -->
+<div class="screen" id="screen-settings">
+  <div class="topnav"><button class="back" onclick="navHome()">← home</button><span class="nav-title">Settings</span></div>
+  <div class="scroll" style="padding-top:20px;">
+    <div style="background:var(--white);border:1px solid var(--cream-mid);border-radius:var(--r);padding:18px;margin-bottom:16px;">
+      <div class="lbl" style="margin-bottom:10px;">Your profile</div>
+      <div id="set-name" style="font-family:var(--font-d);font-size:24px;color:var(--charcoal);margin-bottom:4px;"></div>
+      <div id="set-type" style="font-size:13px;color:var(--charcoal-soft);margin-bottom:4px;"></div>
+      <div id="set-email" style="font-size:12px;color:var(--charcoal-muted);"></div>
+    </div>
+    <button class="btn ghost" onclick="go('screen-onboard')">Update my Human Design type</button>
+    <button class="btn ghost" onclick="doSignout()">Sign out</button>
+    <button class="btn ghost" onclick="resetAll()">Reset all entries</button>
+    <div class="gdiv"></div>
+    <div class="lbl" style="margin-bottom:12px;">Your entries</div>
+    <div id="set-entries"></div>
+  </div>
+</div>
+
+</div><!-- shell -->
+
+<script>
+// ══════════════════════════════
+// SUPABASE
+// ══════════════════════════════
+const SB_URL = 'https://pzetacpblglkawxrkffm.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6ZXRhY3BibGdsa2F3eHJrZmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5MjAxNTYsImV4cCI6MjA5MDQ5NjE1Nn0.gtIh6q7_DqnT-rYlrX84yR67AnNmxoj_mczP5KyLXhU';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+// ══════════════════════════════
+// STATE
+// ══════════════════════════════
+let U = null;        // supabase user
+let profile = null;  // profile row
+let entries = [];
+let todayH = JSON.parse(localStorage.getItem('to_today_h')||'[]');
+let selHD = '', selAuth = '';
+let currentFlow = null; // 'morning' or 'evening'
+let currentStep = 0;
+let flowAnswers = {};
+
+// ══════════════════════════════
+// HD CONFIG
+// ══════════════════════════════
+const AUTHS = {
+  'Generator':             ['Sacral','Emotional','Splenic','Ego','Self-Projected'],
+  'Manifesting Generator': ['Sacral','Emotional','Splenic','Ego','Self-Projected'],
+  'Projector':             ['Emotional','Splenic','Ego','Self-Projected','Mental / No Authority'],
+  'Manifestor':            ['Emotional','Splenic','Ego'],
+  'Reflector':             ['Lunar'],
+  'Unknown':               [],
+};
+const ADESC = {
+  'Sacral':'Gut yes/no in the moment. Before the mind speaks.',
+  'Emotional':'Ride the wave. Clarity comes over time, not in the now.',
+  'Splenic':'Spontaneous body knowing. A quiet whisper, not a shout.',
+  'Ego':'Heart and will. Want it = correct. Don\'t = not.',
+  'Self-Projected':'Hear yourself talk it through. Speaking reveals the truth.',
+  'Mental / No Authority':'Discuss with trusted others. The answer lives in your environment.',
+  'Lunar':'Wait a full lunar cycle. Clarity is cyclical by design.',
+};
+const HD = {
+  'Unknown':{ nudge_m:"You don't need a label to know yourself. What feels true this morning?", nudge_e:"Before you close the day — what felt most like you today?", nudge_proc:"Whatever is present is valid. You don't need to fix it to feel it.", nudge_hab:"Track what felt true and what felt forced. That's your design speaking.", nudge_sup:"Your field has its own intelligence. Trust what keeps surfacing.", aligned_m:"What feels naturally available to you this morning?", aligned_e:"What felt most satisfying or true today?", clearing:"Clarity + self-trust reset", clearing_b:"A practice to quiet the noise and return to your own inner knowing.", bar1:"Followed inner knowing", bar2:"Trusted natural rhythm", bar3:"Released what wasn't mine", complete_m:"You showed up for yourself.", complete_e:"Your field is sealed." },
+  'Generator':{ nudge_m:"Notice what you're responding to today. Satisfaction is always your signal — follow it.", nudge_e:"What felt satisfying today? That's the most important data you have.", nudge_proc:"If something feels heavy, check in — are you forcing it, or is this genuine resistance? Your gut knows.", nudge_hab:"Track what gave you energy today, not just what you completed.", nudge_sup:"Your gut is always tracking. Let your entries reveal what it's been trying to say.", aligned_m:"What lights your sacral up this morning? Trust that first hit.", aligned_e:"Where did you feel most alive and satisfied today?", clearing:"Energy + satisfaction reset", clearing_b:"Return to your sacral response and release what you said yes to from obligation, not truth.", bar1:"Sacral energy followed", bar2:"Said yes to right things", bar3:"Avoided obligation yeses", complete_m:"Your sacral said yes to this. That's everything.", complete_e:"You honored what was real today." },
+  'Manifesting Generator':{ nudge_m:"You are built to move fast and pivot freely. What wants your energy this morning?", nudge_e:"What excited you today? Where did you pivot — and was it the right move?", nudge_proc:"If frustration is present, it may be a signal to pivot. And if you're in flow — trust that too.", nudge_hab:"Track what felt exciting and effortless. That's your data.", nudge_sup:"Your speed is a gift. Your entries will show where you've been dimming it.", aligned_m:"What are you genuinely lit up to respond to this morning?", aligned_e:"What felt most energized and alive today?", clearing:"Frustration + pivot reset", clearing_b:"Release the guilt of changing direction and reclaim the freedom that is your nature.", bar1:"Followed genuine excitement", bar2:"Allowed pivots freely", bar3:"Skipped what felt heavy", complete_m:"You followed your fire. That's your design working.", complete_e:"The field received everything you brought today." },
+  'Projector':{ nudge_m:"Notice where you feel genuinely invited today. Recognition opens every door.", nudge_e:"Where did you feel truly seen today? That's where your energy went furthest.", nudge_proc:"Whatever is present is valid. If something feels off, you may not need to do more — just notice.", nudge_hab:"Track where you felt genuinely recognized. That's your momentum data.", nudge_sup:"Your entries are pointing somewhere. You often see others clearly — you're doing the same for yourself.", aligned_m:"Where do you feel invited and seen this morning?", aligned_e:"Where did recognition show up for you today?", clearing:"Recognition + energy boundary reset", clearing_b:"Soften the tension between your desire to guide and the waiting for the right invitation.", bar1:"Felt genuinely recognized", bar2:"Honored energy limits", bar3:"Waited for invitation", complete_m:"You honored your design today.", complete_e:"Rest well. Your field worked today." },
+  'Manifestor':{ nudge_m:"What wants to move through you today? Name the impulse before it fades.", nudge_e:"What did you put into motion today — and who did you inform?", nudge_proc:"If something feels blocked, it may be worth checking who or what needs to be informed. And if you're moving freely — that's your nature at work.", nudge_hab:"Track what you initiated today. Even a declaration counts.", nudge_sup:"Your impulses hold the thread of what wants to be initiated next. Trust them.", aligned_m:"What are you feeling called to initiate or declare this morning?", aligned_e:"What did you put into motion today?", clearing:"Anger + suppression release", clearing_b:"Clear the residue of being controlled or not understood, and return to your natural initiating power.", bar1:"Initiated from true impulse", bar2:"Informed before acting", bar3:"Protected energy + space", complete_m:"You initiated. The field is in motion.", complete_e:"Your impact today was real." },
+  'Reflector':{ nudge_m:"You are sampling the field today. How does your environment feel this morning?", nudge_e:"What did today's environment reflect back to you? What felt like yours vs what you absorbed?", nudge_proc:"Is this feeling yours, or have you absorbed it? Give yourself space before deciding what it means.", nudge_hab:"Track how your environment felt today. Your surroundings are your data.", nudge_sup:"Your entries mirror the collective field. What keeps showing up may be yours to name — not carry.", aligned_m:"What are you sensing in the field today? What feels different from yesterday?", aligned_e:"What was consistent in your field today — what kept returning as yours?", clearing:"Absorption + environment reset", clearing_b:"Return energy that isn't yours and recalibrate to your own lunar rhythm.", bar1:"Environment felt aligned", bar2:"Noticed what wasn't mine", bar3:"Honored lunar rhythm", complete_m:"You sampled the field with grace.", complete_e:"Return what isn't yours. Rest in what is." },
+};
+
+// ══════════════════════════════
+// MORNING FLOW STEPS
+// ══════════════════════════════
+const MORNING_STEPS = [
+  { name:'Arriving', render: () => `
+    <div class="flow-q">How are you arriving today?</div>
+    <div class="flow-hint">No right answer. Just truth.</div>
+    <div class="chips" id="flow-chips">
+      <span class="chip" onclick="tog(this)">Clear</span><span class="chip" onclick="tog(this)">Excited</span><span class="chip" onclick="tog(this)">Open</span><span class="chip" onclick="tog(this)">Peaceful</span><span class="chip" onclick="tog(this)">Energized</span><span class="chip" onclick="tog(this)">Inspired</span><span class="chip" onclick="tog(this)">Grounded</span><span class="chip" onclick="tog(this)">Heavy</span><span class="chip" onclick="tog(this)">Tired</span><span class="chip" onclick="tog(this)">Anxious</span><span class="chip" onclick="tog(this)">Uncertain</span><span class="chip" onclick="tog(this)">In flow</span>
+    </div>` },
+  { name:'Self love', render: () => `
+    <div class="flow-q">Something I love about myself right now:</div>
+    <div class="flow-hint">Say it like you mean it. You do.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I love that I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Love for others', render: () => `
+    <div class="flow-q">Something I love about someone in my life:</div>
+    <div class="flow-hint">Let the appreciation expand outward.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I love that [name] is..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Today', render: () => `
+    <div class="flow-q">Why today will be amazing:</div>
+    <div class="flow-hint">Set the field before it unfolds.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Today will be amazing because..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Gratitude', render: () => `
+    <div class="flow-q">I am grateful for...</div>
+    <div class="flow-hint">Name 3 or more. Let them land in your body, not just your mind.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="1.&#10;2.&#10;3." rows="5"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Identity', render: () => `
+    <div class="flow-q" id="flow-hd-q">Today I am stepping into...</div>
+    <div class="flow-hint" id="flow-hd-hint">Speak the version of you that already has it.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Today I am the woman who..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Feeling', render: () => `
+    <div class="flow-q">I am choosing to feel...</div>
+    <div class="flow-hint">Choose it on purpose. The field responds to your frequency.</div>
+    <div class="chips" id="flow-chips">
+      <span class="chip" onclick="tog(this)">Abundant</span><span class="chip" onclick="tog(this)">Powerful</span><span class="chip" onclick="tog(this)">Magnetic</span><span class="chip" onclick="tog(this)">Expansive</span><span class="chip" onclick="tog(this)">Joyful</span><span class="chip" onclick="tog(this)">Aligned</span><span class="chip" onclick="tog(this)">Peaceful</span><span class="chip" onclick="tog(this)">Open</span><span class="chip" onclick="tog(this)">Grounded</span><span class="chip" onclick="tog(this)">Clear</span>
+    </div>` },
+  { name:'Calling in', render: () => `
+    <div class="flow-q">What I am calling in today:</div>
+    <div class="flow-hint">Declare it. Present tense. As if it's already so.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I am calling in..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Habits', render: () => `
+    <div class="flow-q">Mark what you've done today:</div>
+    <div class="flow-hint">Journaled is already yours.</div>
+    <div class="hgrid" style="margin-top:16px;">
+      <div class="hitem ${todayH.includes(0)?'done':''}" onclick="toggleH(0);this.classList.toggle('done')"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem done auto"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
+      <div class="hitem ${todayH.includes(2)?'done':''}" onclick="toggleH(2);this.classList.toggle('done')"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
+      <div class="hitem ${todayH.includes(3)?'done':''}" onclick="toggleH(3);this.classList.toggle('done')"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
+      <div class="hitem ${todayH.includes(4)?'done':''}" onclick="toggleH(4);this.classList.toggle('done')"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
+      <div class="hitem ${todayH.includes(5)?'done':''}" onclick="toggleH(5);this.classList.toggle('done')"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+    </div>` },
+];
+
+const EVENING_STEPS = [
+  { name:'Proud of', render: () => `
+    <div class="flow-q">Today I am proud of...</div>
+    <div class="flow-hint">Nothing is too small. Show up and own it.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="What you did, chose, felt, or became today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Remember', render: () => `
+    <div class="flow-q">What I will remember most about today:</div>
+    <div class="flow-hint">The moment, conversation, or shift that stays with you.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="The thing I won't forget from today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Experiences', render: () => `
+    <div class="flow-q">Experiences I had that are part of my manifestation:</div>
+    <div class="flow-hint">What showed up, shifted, or moved today — even subtly?</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Signs, synchronicities, aligned moments, things that arrived..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Gratitude', render: () => `
+    <div class="flow-q">Experiences I'm grateful for that are manifesting:</div>
+    <div class="flow-hint">Name them as already real, already in motion, already yours.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I am grateful for..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Surrender', render: () => `
+    <div class="flow-q">What I am releasing to God, the Universe, and my Divine Guides to handle while I sleep:</div>
+    <div class="flow-hint">Hand it over. It is already being taken care of.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I release and surrender..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Tomorrow', render: () => `
+    <div class="flow-q">Tomorrow I am stepping into...</div>
+    <div class="flow-hint">Set the field tonight. Your subconscious works while you sleep.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Tomorrow I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+  { name:'Habits', render: () => `
+    <div class="flow-q">Mark what you've completed today:</div>
+    <div class="flow-hint">Honor your momentum.</div>
+    <div class="hgrid" style="margin-top:16px;">
+      <div class="hitem ${todayH.includes(0)?'done':''}" onclick="toggleH(0);this.classList.toggle('done')"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem done auto"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
+      <div class="hitem ${todayH.includes(2)?'done':''}" onclick="toggleH(2);this.classList.toggle('done')"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
+      <div class="hitem ${todayH.includes(3)?'done':''}" onclick="toggleH(3);this.classList.toggle('done')"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
+      <div class="hitem ${todayH.includes(4)?'done':''}" onclick="toggleH(4);this.classList.toggle('done')"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
+      <div class="hitem ${todayH.includes(5)?'done':''}" onclick="toggleH(5);this.classList.toggle('done')"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+    </div>` },
+];
+
+// ══════════════════════════════
+// NAVIGATION
+// ══════════════════════════════
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) { el.classList.add('active'); window.scrollTo(0,0); }
+}
+
+function navHome(btn) {
+  stopVoice();
+  const hour = new Date().getHours();
+  const homeId = hour >= 16 ? 'screen-home-evening' : 'screen-home-morning';
+  go(homeId);
+  if(btn) { document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
+  updateHome();
+}
+
+function nav(id, btn) {
+  stopVoice();
+  go(id);
+  if(btn) { document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
+  if(id === 'screen-insights') updateInsights();
+  if(id === 'screen-settings') renderSettings();
+}
+
+function confirmExit() {
+  if(confirm('Exit this practice? Your current answers will not be saved.')) { stopVoice(); navHome(); }
+}
+
+// ══════════════════════════════
+// AUTH
+// ══════════════════════════════
+function switchTab(tab) {
+  document.getElementById('form-login').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('form-signup').style.display = tab==='signup' ? 'block' : 'none';
+  document.getElementById('tab-login').className = tab==='login' ? 'on' : '';
+  document.getElementById('tab-signup').className = tab==='signup' ? 'on' : '';
+  document.getElementById('auth-error').textContent = '';
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('auth-error');
+  errEl.textContent = '';
+  if(!email || !password) { errEl.textContent = 'Please enter your email and password.'; return; }
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+  if(error) { errEl.textContent = error.message; return; }
+  U = data.user;
+  await loadProfile();
+  if(!profile || !profile.hd_type) { go('screen-onboard'); }
+  else { applyHD(); await loadEntries(); updateHome(); navHome(); }
+}
+
+async function doSignup() {
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const errEl = document.getElementById('auth-error');
+  errEl.textContent = '';
+  if(!name || !email || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
+  if(password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+  const { data, error } = await sb.auth.signUp({ email, password });
+  if(error) { errEl.textContent = error.message; return; }
+  U = data.user;
+  await sb.from('profiles').upsert({ id: U.id, name });
+  await loadProfile();
+  go('screen-onboard');
+}
+
+async function doSignout() {
+  await sb.auth.signOut();
+  U = null; profile = null; entries = [];
+  go('screen-splash'); runSplash();
+}
+
+// ══════════════════════════════
+// PROFILE
+// ══════════════════════════════
+async function loadProfile() {
+  if(!U) return;
+  const { data } = await sb.from('profiles').select('*').eq('id', U.id).single();
+  profile = data;
+}
+
+async function saveProfile(updates) {
+  if(!U) return;
+  await sb.from('profiles').upsert({ id: U.id, ...updates });
+  await loadProfile();
+}
+
+// ══════════════════════════════
+// ONBOARDING
+// ══════════════════════════════
+function pickHD(el, type) {
+  document.querySelectorAll('.hdo').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  selHD = type;
+}
+
+function toAuthority() {
+  if(!selHD) { showToast('Please select your Human Design type'); return; }
+  if(selHD === 'Unknown' || selHD === 'Reflector') {
+    selAuth = selHD === 'Reflector' ? 'Lunar' : '';
+    finalizeProfile();
+    return;
+  }
+  const auths = AUTHS[selHD] || [];
+  document.getElementById('auth-options').innerHTML = auths.map(a =>
+    `<div class="hdo ${auths.length<=2?'full':''}" onclick="pickAuth(this,'${a}')"><span class="hdn">${a}</span><span class="hdd">${ADESC[a]||''}</span></div>`
+  ).join('');
+  selAuth = '';
+  go('screen-authority');
+}
+
+function pickAuth(el, auth) {
+  document.querySelectorAll('#auth-options .hdo').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  selAuth = auth;
+}
+
+function doFinalize() {
+  if(!selAuth) { showToast('Select your authority or tap skip'); return; }
+  finalizeProfile();
+}
+
+function skipAuth() { selAuth = ''; finalizeProfile(); }
+
+async function finalizeProfile() {
+  const name = profile ? profile.name : (document.getElementById('signup-name')?.value.trim() || 'Friend');
+  await saveProfile({ name, hd_type: selHD, authority: selAuth });
+  applyHD();
+  await loadEntries();
+  updateHome();
+  navHome();
+}
+
+// ══════════════════════════════
+// APPLY HD
+// ══════════════════════════════
+function applyHD() {
+  if(!profile) return;
+  const hd = HD[profile.hd_type] || HD['Unknown'];
+  const type = profile.hd_type === 'Unknown' || !profile.hd_type ? 'Your design' : profile.hd_type;
+  const auth = profile.authority ? ' · ' + profile.authority : '';
+
+  setText('morn-hd-type', type + auth); setText('morn-hd-nudge', hd.nudge_m);
+  setText('eve-hd-type', type + auth); setText('eve-hd-nudge', hd.nudge_e);
+  setText('proc-hd-type', type); setText('proc-hd-text', hd.nudge_proc);
+  setText('hab-hd-type', type); setText('hab-hd-text', hd.nudge_hab);
+  setText('sup-hd-type', type); setText('sup-hd-text', hd.nudge_sup);
+  setText('sup-lbl1', 'Clearing · ' + type); setText('sup-t1', hd.clearing); setText('sup-b1', hd.clearing_b);
+  setText('sup-lbl2', 'Meditation · ' + type);
+  setText('bl1', hd.bar1); setText('bl2', hd.bar2); setText('bl3', hd.bar3);
+}
+
+function setText(id, val) { const el=document.getElementById(id); if(el) el.textContent=val; }
+
+// ══════════════════════════════
+// MORNING / EVENING FLOWS
+// ══════════════════════════════
+function startMorning() {
+  currentFlow = 'morning'; currentStep = 0; flowAnswers = {};
+  go('screen-morning-flow');
+  renderFlowStep();
+}
+
+function startEvening() {
+  currentFlow = 'evening'; currentStep = 0; flowAnswers = {};
+  go('screen-evening-flow');
+  renderFlowStep();
+}
+
+function renderFlowStep() {
+  stopVoice();
+  const steps = currentFlow === 'morning' ? MORNING_STEPS : EVENING_STEPS;
+  const step = steps[currentStep];
+  const total = steps.length;
+  const pct = Math.round(((currentStep+1)/total)*100);
+  const progressId = currentFlow === 'morning' ? 'mf-progress' : 'ef-progress';
+  const stepLblId = currentFlow === 'morning' ? 'mf-step-label' : 'ef-step-label';
+  const stepNameId = currentFlow === 'morning' ? 'mf-step-name' : 'ef-step-name';
+  const contentId = currentFlow === 'morning' ? 'mf-content' : 'ef-content';
+
+  const prog = document.getElementById(progressId);
+  if(prog) prog.style.width = pct + '%';
+  setText(stepLblId, `Step ${currentStep+1} of ${total}`);
+  setText(stepNameId, step.name);
+
+  const isLast = currentStep === total - 1;
+  const hd = profile ? (HD[profile.hd_type] || HD['Unknown']) : HD['Unknown'];
+  const completeMsg = currentFlow === 'morning' ? hd.complete_m : hd.complete_e;
+
+  const cont = document.getElementById(contentId);
+  if(cont) cont.innerHTML = `
+    ${step.render()}
+    <div style="margin-top:24px;">
+      ${isLast
+        ? `<button class="btn gold" onclick="completeFlow()">${currentFlow==='morning'?'Activate my field ✦':'Seal my field ✦'}</button>`
+        : `<button class="btn gold" onclick="nextStep()">Continue →</button>`}
+      ${currentStep > 0 ? `<button class="btn ghost" onclick="prevStep()">← Back</button>` : ''}
+    </div>
+    ${isLast ? `<div class="nudge" style="margin-top:16px;"><div class="nudge-type">${profile ? profile.hd_type : 'Your design'}</div><div class="nudge-text">${completeMsg}</div></div>` : ''}
+  `;
+  window.scrollTo(0,0);
+}
+
+function nextStep() {
+  saveCurrentAnswer();
+  const steps = currentFlow === 'morning' ? MORNING_STEPS : EVENING_STEPS;
+  if(currentStep < steps.length - 1) { currentStep++; renderFlowStep(); }
+}
+
+function prevStep() {
+  if(currentStep > 0) { currentStep--; renderFlowStep(); }
+}
+
+function saveCurrentAnswer() {
+  const inp = document.getElementById('flow-inp');
+  const chips = document.querySelectorAll('#flow-chips .chip.on');
+  const steps = currentFlow === 'morning' ? MORNING_STEPS : EVENING_STEPS;
+  const key = steps[currentStep].name;
+  if(inp) flowAnswers[key] = inp.value.trim();
+  if(chips.length) flowAnswers[key] = [...chips].map(c=>c.textContent).join(', ');
+}
+
+async function completeFlow() {
+  saveCurrentAnswer();
+  stopVoice();
+  const firstAnswer = Object.values(flowAnswers).find(v => v && v.length > 2) || '';
+  const mode = currentFlow === 'morning' ? 'Morning' : 'Evening';
+  await saveEntry(mode, (firstAnswer || mode + ' practice').slice(0,80));
+
+  const hd = profile ? (HD[profile.hd_type] || HD['Unknown']) : HD['Unknown'];
+  setText('complete-icon', '✦');
+  setText('complete-title', currentFlow === 'morning' ? 'You activated your field.' : 'Your field is sealed.');
+  setText('complete-sub', 'Your practice is complete. Every answer was received.');
+  setText('complete-hd-msg', currentFlow === 'morning' ? hd.complete_m : hd.complete_e);
+  go('screen-complete');
+}
+
+// ══════════════════════════════
+// ENTRIES (Supabase)
+// ══════════════════════════════
+async function loadEntries() {
+  if(!U) return;
+  const { data } = await sb.from('entries').select('*').eq('user_id', U.id).order('created_at', { ascending: false });
+  entries = data || [];
+  updateInsights();
+}
+
+async function saveEntry(mode, preview) {
+  if(!U) return;
+  const entry = { user_id: U.id, mode, preview, hd_type: profile ? profile.hd_type : '', created_at: new Date().toISOString() };
+  await sb.from('entries').insert(entry);
+  await loadEntries();
+  updateHome();
+  showToast('Saved ✦');
+}
+
+async function delEntry(id) {
+  await sb.from('entries').delete().eq('id', id);
+  await loadEntries();
+  updateHome();
+  renderSettings();
+  showToast('Entry removed');
+}
+
+// ══════════════════════════════
+// HOME
+// ══════════════════════════════
+function updateHome() {
+  if(!profile) return;
+  const now = new Date();
+  const h = now.getHours();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateStr = days[now.getDay()] + ' · ' + months[now.getMonth()] + ' ' + now.getDate();
+  const timeStr = String(h).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+
+  const streak = calcStreak();
+  const mMom = streak > 0 ? `You've shown up ${streak} day${streak>1?'s':''}. Your field is building.` : 'Your field is ready. This is your moment.';
+  const eMom = streak > 0 ? `${streak} day${streak>1?'s':''} of showing up. Your field doesn't miss a thing.` : 'Begin your practice. Your field is listening.';
+
+  ['morn-time','eve-time','hab-time'].forEach(id => setText(id, timeStr));
+  ['morn-date','eve-date'].forEach(id => setText(id, dateStr));
+  setText('morn-greeting', greet + ', ' + profile.name);
+  setText('eve-greeting', 'Good evening, ' + profile.name);
+  setText('morn-momentum', mMom);
+  setText('eve-momentum', eMom);
+  setText('hab-streak', streak > 0 ? streak + '-day streak ✦' : 'Start your streak today');
+
+  renderEntries();
+}
+
+function calcStreak() {
+  if(!entries.length) return 0;
+  const dates = [...new Set(entries.map(e => new Date(e.created_at).toDateString()))];
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if(!dates.includes(today) && !dates.includes(yesterday)) return 0;
+  let streak = 0;
+  const d = new Date();
+  while(true) {
+    if(dates.includes(d.toDateString())) { streak++; d.setDate(d.getDate()-1); }
+    else break;
+  }
+  return streak;
+}
+
+function renderEntries() {
+  const recent = entries.slice(0,3);
+  const html = recent.length ? recent.map(e =>
+    `<div class="eitem"><div style="flex:1;overflow:hidden;"><div class="edate">${fmtDate(e.created_at)}</div><div class="emode">${e.mode}</div><div class="eprev">${e.preview}</div></div><button class="edel" onclick="delEntry('${e.id}')">×</button></div>`
+  ).join('') : '<p class="body-t" style="color:var(--charcoal-muted);">Your entries will appear here.</p>';
+  const em = document.getElementById('home-entries-m');
+  const ee = document.getElementById('home-entries-e');
+  if(em) em.innerHTML = html;
+  if(ee) ee.innerHTML = html;
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso);
+  const ms = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return ms[d.getMonth()] + ' ' + d.getDate() + ' · ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+// ══════════════════════════════
+// QUICK WINS
+// ══════════════════════════════
+async function saveQuickWin() {
+  const inp = document.getElementById('quick-win-input');
+  const val = inp ? inp.value.trim() : '';
+  if(!val) { showToast('Write your win first'); return; }
+  await saveEntry('Win ✦', val.slice(0,120));
+  if(inp) inp.value = '';
+  updateInsights();
+}
+
+async function saveHomeWin(id) {
+  const inp = document.getElementById(id);
+  const val = inp ? inp.value.trim() : '';
+  if(!val) return;
+  await saveEntry('Win ✦', val.slice(0,120));
+  if(inp) inp.value = '';
+}
+
+// ══════════════════════════════
+// PROCESSING
+// ══════════════════════════════
+async function saveProcessing(action) {
+  const v = document.getElementById('pr-what')?.value.trim() || '';
+  const moods = [...document.querySelectorAll('#proc-chips .chip.on')].map(c=>c.textContent).join(', ');
+  await saveEntry('Processing', (v || moods || 'Processing entry').slice(0,60));
+  stopVoice();
+  if(action === 'support') go('screen-support');
+  else go('screen-complete');
+}
+
+// ══════════════════════════════
+// HABITS
+// ══════════════════════════════
+function toggleH(idx) {
+  const el = document.getElementById('h'+idx);
+  if(el) el.classList.toggle('done');
+  if(!todayH.includes(idx)) todayH.push(idx);
+  else todayH = todayH.filter(i=>i!==idx);
+  localStorage.setItem('to_today_h', JSON.stringify(todayH));
+}
+function loadHabits() {
+  if(!todayH.includes(1)) { todayH.push(1); localStorage.setItem('to_today_h', JSON.stringify(todayH)); }
+  todayH.forEach(i => { const el=document.getElementById('h'+i); if(el) el.classList.add('done'); });
+}
+async function saveHabit() {
+  const win = document.getElementById('win-input')?.value.trim();
+  if(win) await saveEntry('Win ✦', win.slice(0,60));
+  else showToast('Momentum saved ✦');
+  stopVoice();
+  navHome();
+}
+
+// ══════════════════════════════
+// INSIGHTS
+// ══════════════════════════════
+function updateInsights() {
+  const total = entries.length;
+  const morning = entries.filter(e=>e.mode.includes('Morning')).length;
+  const evening = entries.filter(e=>e.mode.includes('Evening')).length;
+  const proc = entries.filter(e=>e.mode==='Processing').length;
+  const wins = entries.filter(e=>e.mode.includes('Win'));
+  const pct = n => total ? Math.round((n/total)*100)+'%' : '0%';
+  const w = n => total ? Math.round((n/total)*100)+'%' : '0%';
+
+  setText('ins-m', pct(morning)); setText('ins-e', pct(evening)); setText('ins-p', pct(proc));
+  const mf=document.getElementById('ins-mf'); if(mf) mf.style.width=w(morning);
+  const ef=document.getElementById('ins-ef'); if(ef) ef.style.width=w(evening);
+  const pf=document.getElementById('ins-pf'); if(pf) pf.style.width=w(proc);
+
+  const reflections = [
+    "Keep showing up. Your field is always receiving, even when you can't see it yet.",
+    "Every time you show up here, you signal to the field that you are serious about your expansion.",
+    "Your consistency is the frequency. The field responds to repetition, not perfection.",
+    total > 0 ? `${total} entries. That's ${total} times you chose yourself.` : "Your first entry is waiting.",
+    wins.length > 0 ? `You've captured ${wins.length} win${wins.length>1?'s':''}. Read them. Feel them. They are proof.` : "Your first win is waiting to be captured. What shifted today?",
+    "The evidence is building. Trust what you cannot yet fully see.",
+    "Gratitude is not a practice. It is a field. You are already in it.",
+  ];
+  const ref = document.getElementById('ins-reflection');
+  if(ref) ref.textContent = total > 0 ? reflections[total % reflections.length] : reflections[0];
+
+  const winsWall = document.getElementById('wins-wall');
+  const winsCount = document.getElementById('wins-count');
+  if(winsCount) winsCount.textContent = wins.length > 0 ? wins.length+' captured' : '';
+  if(winsWall) {
+    if(wins.length > 0) {
+      winsWall.innerHTML = wins.map(e =>
+        `<div style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;"><div style="flex:1;"><div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;">${fmtDate(e.created_at)}</div><div style="font-family:var(--font-d);font-size:17px;color:var(--charcoal);line-height:1.5;">${e.preview}</div></div><button class="edel" onclick="delEntry('${e.id}')">×</button></div>`
+      ).join('');
+    } else {
+      winsWall.innerHTML = `<div style="background:var(--cream-dark);border-radius:var(--r);padding:20px;text-align:center;"><p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;">Your wins will live here — every proud moment, manifestation evidence, and aligned experience you log.</p></div>`;
+    }
+  }
+
+  const pat = document.getElementById('ins-patterns');
+  if(pat && total >= 3) {
+    const streak = calcStreak();
+    const dominant = morning>=evening&&morning>=proc?'morning activation':evening>=proc?'evening integration':'processing and expression';
+    pat.innerHTML = `
+      <div class="icard"><div class="it">Your strongest practice is ${dominant}</div><div class="ib">Keep building in that direction — consistency in one area lifts everything else.</div></div>
+      ${streak>=3?`<div class="icard"><div class="it">${streak}-day streak</div><div class="ib">Your field is responding. This is how quantum leaps happen — one day at a time.</div></div>`:''}
+      ${wins.length>=3?`<div class="icard"><div class="it">${wins.length} wins logged</div><div class="ib">Read them. Feel them. This is the evidence your subconscious needs to believe the leap is real.</div></div>`:''}
+    `;
+  }
+}
+
+// ══════════════════════════════
+// SETTINGS
+// ══════════════════════════════
+function renderSettings() {
+  if(!profile) return;
+  setText('set-name', profile.name || '');
+  setText('set-type', [profile.hd_type==='Unknown'?'Type unknown':profile.hd_type, profile.authority||''].filter(Boolean).join(' · '));
+  setText('set-email', U ? U.email : '');
+  const cont = document.getElementById('set-entries');
+  if(cont) {
+    cont.innerHTML = entries.map(e =>
+      `<div class="eitem"><div style="flex:1;overflow:hidden;"><div class="edate">${fmtDate(e.created_at)}</div><div class="emode">${e.mode}</div><div class="eprev">${e.preview}</div></div><button class="edel" onclick="delEntry('${e.id}')">×</button></div>`
+    ).join('') || '<p class="body-t" style="color:var(--charcoal-muted);">No entries yet.</p>';
+  }
+}
+
+async function resetAll() {
+  if(!confirm('Delete all your entries? This cannot be undone.')) return;
+  if(U) { await sb.from('entries').delete().eq('user_id', U.id); await loadEntries(); }
+  showToast('All entries removed');
+  navHome();
+}
+
+// ══════════════════════════════
+// VOICE
+// ══════════════════════════════
+let activeRec=null, activeBtn=null, activeTarget=null;
+function stopVoice() {
+  if(activeRec){try{activeRec.stop();}catch(e){} activeRec=null;}
+  if(activeBtn){activeBtn.classList.remove('rec');activeBtn.textContent='🎙';activeBtn=null;}
+  if(activeTarget){const s=document.getElementById('vs-'+activeTarget);if(s)s.classList.remove('show');activeTarget=null;}
+}
+function voice(id,btn) {
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){showToast('Voice not supported in this browser');return;}
+  if(activeRec){stopVoice();return;}
+  const ta=document.getElementById(id); if(!ta) return;
+  let rec; try{rec=new SR();}catch(e){showToast('Microphone unavailable');return;}
+  rec.continuous=true;rec.interimResults=true;rec.lang='en-US';
+  let final=ta.value; activeRec=rec;activeBtn=btn;activeTarget=id;
+  rec.onstart=()=>{btn.classList.add('rec');btn.textContent='⏹';const s=document.getElementById('vs-'+id);if(s)s.classList.add('show');};
+  rec.onresult=e=>{try{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=(final?' ':'')+e.results[i].transcript;else interim=e.results[i].transcript;}ta.value=final+(interim?' '+interim:'');}catch(e){}};
+  rec.onend=()=>{ta.value=final;stopVoice();};
+  rec.onerror=e=>{stopVoice();if(e.error==='not-allowed')showToast('Microphone access denied');else if(e.error!=='aborted'&&e.error!=='no-speech')showToast('Mic error — try again');};
+  try{rec.start();}catch(e){stopVoice();showToast('Could not start microphone');}
+}
+
+// ══════════════════════════════
+// HELPERS
+// ══════════════════════════════
+function tog(el){el.classList.toggle('on');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg||'Saved ✦';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+
+// ══════════════════════════════
+// SPLASH
+// ══════════════════════════════
+function runSplash() {
+  ['sw1','sw2','sw3','sw4'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  [[400,'sw1'],[1000,'sw2'],[1900,'sw3'],[3000,'sw4']].forEach(([t,id])=>setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('show');},t));
+}
+
+// ══════════════════════════════
+// INIT
+// ══════════════════════════════
+async function init() {
+  const { data } = await sb.auth.getSession();
+  if(data.session) {
+    U = data.session.user;
+    await loadProfile();
+    if(!profile || !profile.hd_type) {
+      go('screen-onboard');
+    } else {
+      applyHD();
+      await loadEntries();
+      loadHabits();
+      updateHome();
+      navHome();
+    }
+  } else {
+    go('screen-splash');
+    runSplash();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
