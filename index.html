@@ -667,28 +667,28 @@ const MORNING_STEPS = [
   { name:'Self love', render: () => `
     <div class="flow-q">Something I love about myself right now:</div>
     <div class="flow-hint">Say it like you mean it. You do.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I love that I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-self-love" placeholder="I love that I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-self-love',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-self-love">Listening…</div>` },
   { name:'Love for others', render: () => `
     <div class="flow-q">Something I love about someone in my life:</div>
     <div class="flow-hint">Let the appreciation expand outward.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I love that [name] is..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-love-others" placeholder="I love that [name] is..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-love-others',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-love-others">Listening…</div>` },
   { name:'Today', render: () => `
     <div class="flow-q">Why today will be amazing:</div>
     <div class="flow-hint">Set the field before it unfolds.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Today will be amazing because..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-today" placeholder="Today will be amazing because..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-today',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-today">Listening…</div>` },
   { name:'Gratitude', render: () => `
     <div class="flow-q">I am grateful for...</div>
     <div class="flow-hint">Name 3 or more. Let them land in your body, not just your mind.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="1.&#10;2.&#10;3." rows="5"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-gratitude" placeholder="1.&#10;2.&#10;3." rows="5"></textarea><button class="vbtn" onclick="voice('flow-inp-gratitude',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-gratitude">Listening…</div>` },
   { name:'Identity', render: () => `
-    <div class="flow-q" id="flow-hd-q">Today I am stepping into...</div>
-    <div class="flow-hint" id="flow-hd-hint">Speak the version of you that already has it.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Today I am the woman who..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="flow-q">Today I am stepping into...</div>
+    <div class="flow-hint">Speak the version of you that already has it.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp-identity" placeholder="Today I am the woman who..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-identity',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-identity">Listening…</div>` },
   { name:'Feeling', render: () => `
     <div class="flow-q">I am choosing to feel...</div>
     <div class="flow-hint">Choose it on purpose. The field responds to your frequency.</div>
@@ -698,8 +698,8 @@ const MORNING_STEPS = [
   { name:'Calling in', render: () => `
     <div class="flow-q">What I am calling in today:</div>
     <div class="flow-hint">Declare it. Present tense. As if it's already so.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I am calling in..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-calling" placeholder="I am calling in..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-calling',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-calling">Listening…</div>` },
   { name:'Habits', render: () => `
     <div class="flow-q">Mark what you've done today:</div>
     <div class="flow-hint">Journaled is already yours.</div>
@@ -717,33 +717,33 @@ const EVENING_STEPS = [
   { name:'Proud of', render: () => `
     <div class="flow-q">Today I am proud of...</div>
     <div class="flow-hint">Nothing is too small. Show up and own it.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="What you did, chose, felt, or became today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-proud" placeholder="What you did, chose, felt, or became today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-proud',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-proud">Listening…</div>` },
   { name:'Remember', render: () => `
     <div class="flow-q">What I will remember most about today:</div>
     <div class="flow-hint">The moment, conversation, or shift that stays with you.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="The thing I won't forget from today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-remember" placeholder="The thing I won't forget from today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-remember',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-remember">Listening…</div>` },
   { name:'Experiences', render: () => `
     <div class="flow-q">Experiences I had that are part of my manifestation:</div>
     <div class="flow-hint">What showed up, shifted, or moved today — even subtly?</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Signs, synchronicities, aligned moments, things that arrived..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-experiences" placeholder="Signs, synchronicities, aligned moments, things that arrived..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-experiences',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-experiences">Listening…</div>` },
   { name:'Gratitude', render: () => `
     <div class="flow-q">Experiences I'm grateful for that are manifesting:</div>
     <div class="flow-hint">Name them as already real, already in motion, already yours.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I am grateful for..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-eve-gratitude" placeholder="I am grateful for..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-eve-gratitude',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-eve-gratitude">Listening…</div>` },
   { name:'Surrender', render: () => `
     <div class="flow-q">What I am releasing to God, the Universe, and my Divine Guides to handle while I sleep:</div>
     <div class="flow-hint">Hand it over. It is already being taken care of.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="I release and surrender..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-surrender" placeholder="I release and surrender..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-surrender',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-surrender">Listening…</div>` },
   { name:'Tomorrow', render: () => `
     <div class="flow-q">Tomorrow I am stepping into...</div>
     <div class="flow-hint">Set the field tonight. Your subconscious works while you sleep.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp" placeholder="Tomorrow I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp',this)">🎙</button></div>
-    <div class="vstatus" id="vs-flow-inp">Listening…</div>` },
+    <div class="vrow"><textarea class="pinp" id="flow-inp-tomorrow" placeholder="Tomorrow I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-tomorrow',this)">🎙</button></div>
+    <div class="vstatus" id="vs-flow-inp-tomorrow">Listening…</div>` },
   { name:'Habits', render: () => `
     <div class="flow-q">Mark what you've completed today:</div>
     <div class="flow-hint">Honor your momentum.</div>
@@ -984,12 +984,15 @@ function prevStep() {
 }
 
 function saveCurrentAnswer() {
-  const inp = document.getElementById('flow-inp');
   const chips = document.querySelectorAll('#flow-chips .chip.on');
   const steps = currentFlow === 'morning' ? MORNING_STEPS : EVENING_STEPS;
   const key = steps[currentStep].name;
-  if(inp) flowAnswers[key] = inp.value.trim();
-  if(chips.length) flowAnswers[key] = [...chips].map(c=>c.textContent).join(', ');
+  if(chips.length > 0) {
+    flowAnswers[key] = [...chips].map(c=>c.textContent).join(', ');
+  } else {
+    const inp = document.querySelector('[id^="flow-inp-"]');
+    if(inp && inp.value.trim()) flowAnswers[key] = inp.value.trim();
+  }
 }
 
 async function completeFlow() {
@@ -1241,8 +1244,12 @@ function voice(id,btn) {
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){showToast('Voice not supported in this browser');return;}
   if(activeRec){stopVoice();return;}
-  const ta=document.getElementById(id);
-  if(!ta){showToast('Could not find input field');return;}
+  // Retry finding element in case of dynamic rendering
+  let ta=document.getElementById(id);
+  if(!ta){
+    setTimeout(()=>voice(id,btn),200);
+    return;
+  }
   let rec; try{rec=new SR();}catch(e){showToast('Microphone unavailable');return;}
   rec.continuous=true;rec.interimResults=true;rec.lang='en-US';
   let final=ta.value||''; activeRec=rec;activeBtn=btn;activeTarget=id;
