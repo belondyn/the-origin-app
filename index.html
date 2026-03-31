@@ -1296,42 +1296,15 @@ function runSplash() {
 // INIT
 // ══════════════════════════════
 async function init() {
-  // Show a silent loading state — no splash, no auth screen flash
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-
-  // Check if this is an OAuth callback — access_token in URL hash
-  const hash = window.location.hash;
-  if(hash && hash.includes('access_token')) {
-    // Supabase will automatically handle this via onAuthStateChange
-    // Just wait for it — don't show any screen yet
+  // If this is a Google OAuth callback, give Supabase a moment to process it
+  const isOAuthCallback = window.location.hash.includes('access_token');
+  if(isOAuthCallback) {
     window.history.replaceState({}, document.title, window.location.pathname);
+    await new Promise(r => setTimeout(r, 500));
   }
 
-  // onAuthStateChange fires immediately with existing session OR after OAuth redirect
-  sb.auth.onAuthStateChange(async (event, session) => {
-    if((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session && !U) {
-      U = session.user;
-      await loadProfile();
-      if(!profile || !profile.hd_type) {
-        go('screen-onboard');
-      } else {
-        applyHD();
-        await loadEntries();
-        loadHabits();
-        updateHome();
-        navHome();
-      }
-    }
-    if(event === 'SIGNED_OUT') {
-      U = null; profile = null; entries = [];
-      go('screen-splash');
-      runSplash();
-    }
-  });
-
-  // Also check for existing session directly
   const { data } = await sb.auth.getSession();
-  if(data.session && !U) {
+  if(data.session) {
     U = data.session.user;
     await loadProfile();
     if(!profile || !profile.hd_type) {
@@ -1343,8 +1316,7 @@ async function init() {
       updateHome();
       navHome();
     }
-  } else if(!data.session && !hash.includes('access_token')) {
-    // No session and not an OAuth callback — show splash
+  } else {
     go('screen-splash');
     runSplash();
   }
