@@ -174,7 +174,8 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
   <div style="padding:0 40px;width:100%;">
     <div class="sw" id="sw1">The</div>
     <div class="sw" id="sw2">Origin.</div>
-    <div class="sw-sub" id="sw3">Designed in frequency.<br>Built for your quantum leap.</div>
+    <div class="sw-sub" id="sw3" style="font-size:13px;letter-spacing:0.18em;text-transform:uppercase;font-style:normal;font-family:var(--font-b);font-weight:300;">Activation Field</div>
+    <div class="sw-sub" id="sw3b" style="margin-top:16px;">Designed in frequency.<br>Built for your quantum leap.</div>
     <div class="sw-btn" id="sw4">
       <button class="btn gold" onclick="go('screen-auth')" style="max-width:260px;margin:0 auto;display:block;">Begin ✦</button>
       <p style="font-size:12px;color:var(--charcoal-muted);margin-top:12px;letter-spacing:0.06em;">Your expansion is already coded in.</p>
@@ -188,8 +189,9 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 <div class="screen" id="screen-auth">
   <div class="auth-wrap">
     <div class="ob-logo">The Origin</div>
+    <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--charcoal-muted);margin-top:-32px;margin-bottom:32px;font-family:var(--font-b);font-weight:300;">Activation Field</div>
     <div class="ob-tag">Welcome<br><em>to your field.</em></div>
-    <p class="ob-sub">Your practice lives here — accessible from any device, always waiting for you.</p>
+    <p class="ob-sub">Your practice lives here accessible from any device, always waiting for you.</p>
 
     <div class="auth-tab">
       <button class="on" id="tab-login" onclick="switchTab('login')">Sign in</button>
@@ -562,24 +564,14 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
   <div class="status"><span>✦</span><span>✦ ✦ ✦</span></div>
   <div class="scroll">
     <div class="disp" style="margin-top:20px;">Support</div>
-    <p class="home-date" style="margin-top:4px;margin-bottom:16px;">Recommended based on your design</p>
-    <div class="nudge">
-      <div class="nudge-type" id="sup-hd-type">Your design</div>
-      <div class="nudge-text" id="sup-hd-text">Your field is pointing somewhere. Trust what wants to surface.</div>
+    <p class="home-date" style="margin-top:4px;margin-bottom:40px;">The healing bridge</p>
+    <div style="text-align:center;padding:40px 20px;">
+      <div style="font-family:var(--font-d);font-size:64px;color:var(--gold-light);margin-bottom:24px;">✦</div>
+      <div style="font-family:var(--font-d);font-size:28px;font-weight:300;color:var(--charcoal);margin-bottom:12px;">Coming soon.</div>
+      <p style="font-size:14px;color:var(--charcoal-soft);line-height:1.8;max-width:280px;margin:0 auto 32px;">Personalized clearings, guided meditations, and healing sessions calibrated to your Human Design type. Your field is being prepared.</p>
+      <div class="gdiv" style="margin:0 auto 32px;max-width:120px;"></div>
+      <p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;">Your expansion is already coded in.</p>
     </div>
-    <div style="background:var(--charcoal);border-radius:var(--r);padding:20px;margin-bottom:20px;text-align:center;">
-      <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px;">Unlock the full experience</div>
-      <div style="font-family:var(--font-d);font-size:24px;font-weight:300;color:var(--cream);margin-bottom:6px;">The Origin · Full Access</div>
-      <p style="font-size:13px;color:var(--charcoal-muted);line-height:1.6;margin-bottom:16px;">Personalized clearings, guided meditations, and healing sessions — all calibrated to your Human Design type.</p>
-      <button class="btn gold" style="margin-bottom:0;">Subscribe to unlock ✦</button>
-    </div>
-    <div class="lbl" style="margin-bottom:12px;">What unlocks for you</div>
-    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl" id="sup-lbl1">Clearing · your type</div><div class="hc-title" id="sup-t1">Energy reset</div><div class="hc-body" id="sup-b1">A guided clearing calibrated to your Human Design type — releasing what doesn't belong to you and returning to your natural frequency.</div></div>
-    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl" id="sup-lbl2">Meditation · your type</div><div class="hc-title" id="sup-t2">Activation meditation</div><div class="hc-body" id="sup-b2">A guided meditation built around how your design receives, processes, and expands.</div></div>
-    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl">Identity activation</div><div class="hc-title">Who you are becoming</div><div class="hc-body">10 identity statements calibrated to your type. Read aloud to rewire the field.</div></div>
-    <div class="hcard" style="opacity:0.75;"><div class="soon" style="background:var(--gold-pale);color:var(--gold);">🔒 Subscribers</div><div class="hc-lbl">Pattern healing</div><div class="hc-title">What your field reveals</div><div class="hc-body" id="sup-b3">As your entries build, personalized healing sessions generate from your actual patterns.</div></div>
-    <div class="gdiv"></div>
-    <button class="btn gold">Subscribe to unlock ✦</button>
     <button class="btn ghost" onclick="navHome()">Return home</button>
   </div>
   <div class="bnav">
@@ -1130,8 +1122,11 @@ async function saveProcessing(action) {
   const moods = [...document.querySelectorAll('#proc-chips .chip.on')].map(c=>c.textContent).join(', ');
   await saveEntry('Processing', (v || moods || 'Processing entry').slice(0,60));
   stopVoice();
-  if(action === 'support') go('screen-support');
-  else go('screen-complete');
+  setText('complete-icon', '✦');
+  setText('complete-title', 'You expressed your truth.');
+  setText('complete-sub', 'Your field received it. Support features are coming soon.');
+  setText('complete-hd-msg', 'Sometimes expression alone is the medicine.');
+  go('screen-complete');
 }
 
 // ══════════════════════════════
@@ -1246,13 +1241,14 @@ function voice(id,btn) {
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){showToast('Voice not supported in this browser');return;}
   if(activeRec){stopVoice();return;}
-  const ta=document.getElementById(id); if(!ta) return;
+  const ta=document.getElementById(id);
+  if(!ta){showToast('Could not find input field');return;}
   let rec; try{rec=new SR();}catch(e){showToast('Microphone unavailable');return;}
   rec.continuous=true;rec.interimResults=true;rec.lang='en-US';
-  let final=ta.value; activeRec=rec;activeBtn=btn;activeTarget=id;
+  let final=ta.value||''; activeRec=rec;activeBtn=btn;activeTarget=id;
   rec.onstart=()=>{btn.classList.add('rec');btn.textContent='⏹';const s=document.getElementById('vs-'+id);if(s)s.classList.add('show');};
-  rec.onresult=e=>{try{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=(final?' ':'')+e.results[i].transcript;else interim=e.results[i].transcript;}ta.value=final+(interim?' '+interim:'');}catch(e){}};
-  rec.onend=()=>{ta.value=final;stopVoice();};
+  rec.onresult=e=>{try{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=(final?' ':'')+e.results[i].transcript;else interim=e.results[i].transcript;}const t=document.getElementById(id);if(t)t.value=final+(interim?' '+interim:'');}catch(e){}};
+  rec.onend=()=>{const t=document.getElementById(id);if(t)t.value=final;stopVoice();};
   rec.onerror=e=>{stopVoice();if(e.error==='not-allowed')showToast('Microphone access denied');else if(e.error!=='aborted'&&e.error!=='no-speech')showToast('Mic error — try again');};
   try{rec.start();}catch(e){stopVoice();showToast('Could not start microphone');}
 }
@@ -1267,8 +1263,8 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 // SPLASH
 // ══════════════════════════════
 function runSplash() {
-  ['sw1','sw2','sw3','sw4'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.remove('show'); });
-  [[400,'sw1'],[1000,'sw2'],[1900,'sw3'],[3000,'sw4']].forEach(([t,id])=>setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('show');},t));
+  ['sw1','sw2','sw3','sw3b','sw4'].forEach(id => { const el=document.getElementById(id); if(el) el.classList.remove('show'); });
+  [[400,'sw1'],[1000,'sw2'],[1600,'sw3'],[2200,'sw3b'],[3200,'sw4']].forEach(([t,id])=>setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('show');},t));
 }
 
 // ══════════════════════════════
