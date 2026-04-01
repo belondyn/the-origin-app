@@ -329,18 +329,34 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
   <div class="status"><span id="morn-time">9:41</span><span>✦ ✦ ✦</span></div>
   <div class="scroll">
     <p class="home-date" id="morn-date">Monday · March 30</p>
-    <div class="disp" style="margin-bottom:6px;" id="morn-greeting">Good morning</div>
-    <p class="momentum" id="morn-momentum">Your field is ready.</p>
+    <div class="disp" style="margin-bottom:4px;" id="morn-greeting">Good morning</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <p class="momentum" id="morn-momentum" style="margin-bottom:0;">Your field is ready.</p>
+      <div id="morn-streak-badge" style="display:none;background:var(--charcoal);color:var(--cream);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;white-space:nowrap;"></div>
+    </div>
+
+    <!-- Daily activation quote -->
+    <div style="border-left:2px solid var(--gold);padding:12px 16px;margin-bottom:20px;background:var(--white);border-radius:0 var(--rs) var(--rs) 0;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Today's activation</div>
+      <div style="font-family:var(--font-d);font-size:15px;color:var(--charcoal-soft);line-height:1.6;font-style:italic;" id="home-daily-quote">Your expansion is already coded in.</div>
+    </div>
 
     <div class="nudge">
       <div class="nudge-type" id="morn-hd-type">Your design</div>
       <div class="nudge-text" id="morn-hd-nudge">Notice what you're responding to today. Satisfaction is always the signal.</div>
     </div>
 
-    <div class="practice-card" onclick="startMorning()">
-      <div class="pc-label">Morning activation</div>
-      <div class="pc-title">Start your<br>practice ✦</div>
-      <div class="pc-sub">Guided · screen by screen · 3 min</div>
+    <!-- Practice card — changes if already completed -->
+    <div class="practice-card" id="morn-practice-card" onclick="startMorning()">
+      <div class="pc-label" id="morn-practice-label">Morning activation</div>
+      <div class="pc-title" id="morn-practice-title">Start your<br>practice ✦</div>
+      <div class="pc-sub" id="morn-practice-sub">Guided · screen by screen · 3 min</div>
+    </div>
+
+    <!-- Wins shortcut -->
+    <div class="quick-card" onclick="nav('screen-insights',null);setTimeout(()=>{const w=document.getElementById('wins-wall');if(w)w.scrollIntoView({behavior:'smooth'});},300);">
+      <div><div class="qc-title">Read your wins ✦</div><div class="qc-sub">Your evidence wall · always growing</div></div>
+      <div class="qc-arrow">→</div>
     </div>
 
     <div class="quick-card" onclick="go('screen-processing')">
@@ -375,18 +391,34 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
   <div class="status"><span id="eve-time">9:41</span><span>✦ ✦ ✦</span></div>
   <div class="scroll">
     <p class="home-date" id="eve-date">Monday · March 30</p>
-    <div class="disp" style="margin-bottom:6px;" id="eve-greeting">Good evening</div>
-    <p class="momentum" id="eve-momentum">Your field doesn't miss a thing.</p>
+    <div class="disp" style="margin-bottom:4px;" id="eve-greeting">Good evening</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <p class="momentum" id="eve-momentum" style="margin-bottom:0;">Your field doesn't miss a thing.</p>
+      <div id="eve-streak-badge" style="display:none;background:var(--charcoal);color:var(--cream);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;white-space:nowrap;"></div>
+    </div>
+
+    <!-- Daily activation quote -->
+    <div style="border-left:2px solid var(--gold);padding:12px 16px;margin-bottom:20px;background:var(--white);border-radius:0 var(--rs) var(--rs) 0;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Today's activation</div>
+      <div style="font-family:var(--font-d);font-size:15px;color:var(--charcoal-soft);line-height:1.6;font-style:italic;" id="eve-daily-quote">Your expansion is already coded in.</div>
+    </div>
 
     <div class="nudge">
       <div class="nudge-type" id="eve-hd-type">Your design</div>
       <div class="nudge-text" id="eve-hd-nudge">Before you close this day, let what wants to land, land.</div>
     </div>
 
-    <div class="practice-card eve" onclick="startEvening()">
-      <div class="pc-label">Evening integration</div>
-      <div class="pc-title">Close your<br>day ✦</div>
-      <div class="pc-sub">Guided · screen by screen · 3 min</div>
+    <!-- Practice card — changes if already completed -->
+    <div class="practice-card eve" id="eve-practice-card" onclick="startEvening()">
+      <div class="pc-label" id="eve-practice-label">Evening integration</div>
+      <div class="pc-title" id="eve-practice-title">Close your<br>day ✦</div>
+      <div class="pc-sub" id="eve-practice-sub">Guided · screen by screen · 3 min</div>
+    </div>
+
+    <!-- Wins shortcut -->
+    <div class="quick-card" onclick="nav('screen-insights',null);setTimeout(()=>{const w=document.getElementById('wins-wall');if(w)w.scrollIntoView({behavior:'smooth'});},300);">
+      <div><div class="qc-title">Read your wins ✦</div><div class="qc-sub">Your evidence wall · always growing</div></div>
+      <div class="qc-arrow">→</div>
     </div>
 
     <div class="quick-card" onclick="go('screen-processing')">
@@ -617,13 +649,37 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
   <div class="scroll">
     <div class="disp" style="margin-top:20px;">Support</div>
     <p class="home-date" style="margin-top:4px;margin-bottom:40px;">The healing bridge</p>
-    <div style="text-align:center;padding:40px 20px;">
+    <div style="text-align:center;padding:40px 20px 20px;">
       <div style="font-family:var(--font-d);font-size:64px;color:var(--gold-light);margin-bottom:24px;">✦</div>
       <div style="font-family:var(--font-d);font-size:28px;font-weight:300;color:var(--charcoal);margin-bottom:12px;">Coming soon.</div>
       <p style="font-size:14px;color:var(--charcoal-soft);line-height:1.8;max-width:280px;margin:0 auto 32px;">Personalized clearings, guided meditations, and healing sessions calibrated to your Human Design type. Your field is being prepared.</p>
       <div class="gdiv" style="margin:0 auto 32px;max-width:120px;"></div>
       <p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;">Your expansion is already coded in.</p>
     </div>
+
+    <div class="gdiv"></div>
+    <div class="lbl" style="margin-bottom:16px;">About this activation field</div>
+
+    <div style="background:var(--charcoal);border-radius:var(--r);padding:22px;margin-bottom:14px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px;">How it works</div>
+      <div style="font-family:var(--font-d);font-size:17px;font-weight:300;color:var(--cream);line-height:1.7;">Every prompt in The Origin is neuroscience-backed and channeled to rewire your brain toward what you are calling in. Ancient manifestation wisdom meets modern neuroscience — so your subconscious starts living in your quantum leap before it arrives.</div>
+    </div>
+
+    <div style="background:var(--gold-pale);border-radius:var(--r);padding:18px;margin-bottom:14px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">The science behind it</div>
+      <div style="font-size:13px;color:var(--charcoal-soft);line-height:1.8;">Your brain cannot fully distinguish between a vividly imagined experience and a real one. When you declare, visualize, and feel into your desires consistently, your reticular activating system — the brain's filtering mechanism — begins to notice evidence of that reality everywhere. This is not magic. This is neuroscience. The practice accelerates it.</div>
+    </div>
+
+    <div style="background:var(--cream-dark);border-radius:var(--r);padding:18px;margin-bottom:14px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--charcoal-muted);margin-bottom:8px;">Your privacy</div>
+      <div style="font-size:13px;color:var(--charcoal-soft);line-height:1.8;">Everything you write lives only in your private account. Nobody else sees it. Your entries are stored securely and are accessible only to you. Your honesty is the activator — the more real you are with yourself here, the faster the shift happens.</div>
+    </div>
+
+    <div style="background:var(--cream-dark);border-radius:var(--r);padding:18px;margin-bottom:24px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--charcoal-muted);margin-bottom:8px;">Human Design + this practice</div>
+      <div style="font-size:13px;color:var(--charcoal-soft);line-height:1.8;">Human Design reveals how you are uniquely wired to make decisions, receive energy, and move through the world. Every prompt in The Origin adapts to your type so the practice meets you where you are — not where someone else is. This is not generic. This is designed for you.</div>
+    </div>
+
     <button class="btn ghost" onclick="navHome()">Return home</button>
   </div>
   <div class="bnav">
@@ -1143,6 +1199,40 @@ async function delEntry(id) {
 // ══════════════════════════════
 // HOME
 // ══════════════════════════════
+const HOME_QUOTES = [
+  "Your expansion is already coded in. Today you access it.",
+  "What you call in this morning is already looking for you.",
+  "The field responds to your frequency. Raise it here, feel it everywhere.",
+  "You are not waiting for your life to change. You are the change.",
+  "Every morning practice compounds. You are building something extraordinary.",
+  "Your quantum leap doesn't arrive. It unfolds. Today is part of that unfolding.",
+  "The version of you who has it all does exactly this. You just became her.",
+  "Consistency is the frequency the Universe cannot ignore.",
+  "Ancient wisdom. Modern neuroscience. Your design. This is the combination.",
+  "What you declare today, your subconscious begins building tonight.",
+  "You are not manifesting from scratch. You are remembering what was always yours.",
+  "The gap between where you are and where you're going closes every time you show up here.",
+  "Your desires are not accidents. They are encoded instructions.",
+  "Three minutes. Every morning. Every evening. This is how worlds are built.",
+  "You are always in the field. This practice makes you conscious of it.",
+  "What you focus on expands. Today you focused on your highest self.",
+  "The brain rewires through repetition and emotion. You are giving it both.",
+  "Your next level is not a place you arrive at. It is a frequency you inhabit.",
+  "Every time you show up here you are closing the gap.",
+  "You didn't just journal. You sent a signal to the Universe about who you are becoming.",
+  "The field always responds to intention. Yours just got louder.",
+  "Manifestation is not wishing. It is training the brain to live in the reality before it arrives.",
+  "You are not hoping for your quantum leap. You are activating it.",
+  "What you wrote yesterday is already working. What you write today accelerates it.",
+  "Your subconscious cannot tell the difference between now and the vision. You just planted both.",
+  "This is not hope. This is activation. There is a difference — and you feel it.",
+  "The practice doesn't need to be perfect. It needs to be consistent. You showed up.",
+  "Something is always shifting in your favor. This practice helps you see it.",
+  "You are wired for expansion. This field is designed to activate that wiring.",
+  "Your quantum leap is not coming. It is already unfolding.",
+  "You chose yourself today. The field noticed.",
+];
+
 function updateHome() {
   if(!profile) return;
   const now = new Date();
@@ -1154,17 +1244,70 @@ function updateHome() {
   const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
 
   const streak = calcStreak();
-  const mMom = streak > 0 ? `You've shown up ${streak} day${streak>1?'s':''}. Your field is building.` : 'Your field is ready. This is your moment.';
-  const eMom = streak > 0 ? `${streak} day${streak>1?'s':''} of showing up. Your field doesn't miss a thing.` : 'Begin your practice. Your field is listening.';
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(),0,0)) / 86400000);
+  const dailyQuote = HOME_QUOTES[dayOfYear % HOME_QUOTES.length];
+
+  // Check if already completed today
+  const today = now.toDateString();
+  const completedMorning = entries.some(e => e.mode === 'Morning' && new Date(e.created_at).toDateString() === today);
+  const completedEvening = entries.some(e => e.mode === 'Evening' && new Date(e.created_at).toDateString() === today);
 
   ['morn-time','eve-time','hab-time'].forEach(id => setText(id, timeStr));
   ['morn-date','eve-date'].forEach(id => setText(id, dateStr));
   setText('morn-greeting', greet + ', ' + profile.name);
   setText('eve-greeting', 'Good evening, ' + profile.name);
+
+  // Daily quote on both home screens
+  setText('home-daily-quote', dailyQuote);
+  setText('eve-daily-quote', dailyQuote);
+
+  // Streak badge
+  const streakText = streak > 0 ? `Day ${streak} ✦` : null;
+  ['morn-streak-badge','eve-streak-badge'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) {
+      if(streakText) { el.textContent = streakText; el.style.display = 'block'; }
+      else el.style.display = 'none';
+    }
+  });
+
+  // Momentum line
+  const mMom = streak > 0 ? `${streak} day${streak>1?'s':''} of showing up.` : 'Your field is ready for you.';
+  const eMom = streak > 0 ? `${streak} day${streak>1?'s':''} strong.` : 'Your field is listening.';
   setText('morn-momentum', mMom);
   setText('eve-momentum', eMom);
-  setText('hab-streak', streak > 0 ? streak + '-day streak ✦' : 'Start your streak today');
 
+  // Practice card changes when completed today
+  const mCard = document.getElementById('morn-practice-card');
+  const eCard = document.getElementById('eve-practice-card');
+  if(mCard) {
+    if(completedMorning) {
+      mCard.style.background = 'var(--sage-dark)' ;
+      setText('morn-practice-label', 'Morning activated ✦');
+      setText('morn-practice-title', 'Your field is\nopen.');
+      setText('morn-practice-sub', 'Tap to do it again');
+    } else {
+      mCard.style.background = 'var(--charcoal)';
+      setText('morn-practice-label', 'Morning activation');
+      setText('morn-practice-title', 'Start your\npractice ✦');
+      setText('morn-practice-sub', 'Guided · screen by screen · 3 min');
+    }
+  }
+  if(eCard) {
+    if(completedEvening) {
+      eCard.style.background = '#4A5568';
+      setText('eve-practice-label', 'Evening sealed ✦');
+      setText('eve-practice-title', 'Your field is\nsealed.');
+      setText('eve-practice-sub', 'Tap to do it again');
+    } else {
+      eCard.style.background = 'var(--charcoal-mid)';
+      setText('eve-practice-label', 'Evening integration');
+      setText('eve-practice-title', 'Close your\nday ✦');
+      setText('eve-practice-sub', 'Guided · screen by screen · 3 min');
+    }
+  }
+
+  setText('hab-streak', streak > 0 ? streak + '-day streak ✦' : 'Start your streak today');
   renderEntries();
 }
 
@@ -1399,39 +1542,47 @@ function runSplash() {
 // INIT
 // ══════════════════════════════
 async function loadAndGo() {
-  const { data } = await sb.auth.getSession();
-  if(data.session) {
-    U = data.session.user;
-    await loadProfile();
-    if(!profile || !profile.hd_type) {
-      // New user via Google — show welcome screen first
-      const name = profile?.name || U.user_metadata?.full_name?.split(' ')[0] || 'Friend';
-      if(!profile) await sb.from('profiles').upsert({ id: U.id, name });
-      const welcomeName = document.getElementById('welcome-why-name');
-      if(welcomeName) welcomeName.innerHTML = `Welcome,<br><em>${name}.</em>`;
-      // If they have a name but no HD type, skip welcome and go straight to HD
-      if(profile && profile.name && !profile.hd_type) {
-        go('screen-onboard');
+  const timeout = setTimeout(() => {
+    if(!U) { go('screen-splash'); runSplash(); }
+  }, 4000);
+
+  try {
+    const { data } = await sb.auth.getSession();
+    clearTimeout(timeout);
+    if(data.session) {
+      U = data.session.user;
+      await loadProfile();
+      if(!profile || !profile.hd_type) {
+        const name = profile?.name || U.user_metadata?.full_name?.split(' ')[0] || 'Friend';
+        if(!profile) await sb.from('profiles').upsert({ id: U.id, name });
+        const welcomeName = document.getElementById('welcome-why-name');
+        if(welcomeName) welcomeName.innerHTML = `Welcome,<br><em>${name}.</em>`;
+        if(profile && profile.name && !profile.hd_type) {
+          go('screen-onboard');
+        } else {
+          go('screen-welcome-why');
+        }
       } else {
-      go('screen-welcome-why');
+        applyHD();
+        await loadEntries();
+        loadHabits();
+        updateHome();
+        navHome();
       }
     } else {
-      applyHD();
-      await loadEntries();
-      loadHabits();
-      updateHome();
-      navHome();
+      go('screen-splash');
+      runSplash();
     }
-  } else {
+  } catch(e) {
+    clearTimeout(timeout);
     go('screen-splash');
     runSplash();
   }
 }
 
 async function init() {
-  // Supabase v2 auto-handles the OAuth hash — just listen for the event
   sb.auth.onAuthStateChange(async (event, session) => {
-    if(event === 'SIGNED_IN' && session && !U) {
+    if((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session && !U) {
       U = session.user;
       await loadProfile();
       if(!profile || !profile.hd_type) {
