@@ -252,6 +252,39 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 </div>
 
 <!-- ══════════════════════
+  ONBOARD WELCOME — shown once after name
+══════════════════════ -->
+<div class="screen" id="screen-welcome-why">
+  <div class="scroll" style="padding-top:48px;">
+    <div class="ob-logo">The Origin</div>
+    <div class="ob-tag" id="welcome-why-name">Welcome,<br><em>your field awaits.</em></div>
+
+    <div style="background:var(--charcoal);border-radius:var(--r);padding:22px;margin-bottom:20px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px;">What this activation field does</div>
+      <div style="font-family:var(--font-d);font-size:17px;font-weight:300;color:var(--cream);line-height:1.7;">Every prompt in The Origin is neuroscience-backed and channeled to rewire your brain toward what you are calling in. Ancient manifestation wisdom meets modern neuroscience — so your subconscious starts living in your quantum leap before it arrives.</div>
+    </div>
+
+    <div style="background:var(--gold-pale);border-radius:var(--r);padding:18px;margin-bottom:20px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Your privacy</div>
+      <div style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-mid);line-height:1.6;">Everything you write lives only in your private account. Nobody else sees it — not even us. Your honesty is the activator. The more real you are, the faster the shift.</div>
+    </div>
+
+    <div style="background:var(--cream-dark);border-radius:var(--r);padding:18px;margin-bottom:28px;">
+      <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--charcoal-muted);margin-bottom:8px;">How it works</div>
+      <div style="font-size:13px;color:var(--charcoal-soft);line-height:1.8;">
+        Three minutes every morning activates your field for the day.<br>
+        Three minutes every evening seals what you called in.<br>
+        Your Human Design personalizes every prompt to how you are uniquely wired.<br>
+        Your brain rewires. Your reality follows.
+      </div>
+    </div>
+
+    <button class="btn gold" onclick="go('screen-onboard')">I'm ready ✦</button>
+    <p style="font-size:12px;color:var(--charcoal-muted);text-align:center;margin-top:10px;">You will only see this once</p>
+  </div>
+</div>
+
+<!-- ══════════════════════
   ONBOARD HD TYPE
 ══════════════════════ -->
 <div class="screen" id="screen-onboard">
@@ -473,8 +506,19 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
       <div class="confirm-icon" id="complete-icon">✦</div>
       <div class="confirm-title" id="complete-title">You activated your field.</div>
       <p class="confirm-sub" id="complete-sub">Your practice is complete. The field received everything.</p>
+
+      <div style="background:var(--gold-pale);border-radius:var(--r);padding:20px;margin-bottom:20px;text-align:left;">
+        <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Your field today</div>
+        <div style="font-family:var(--font-d);font-size:18px;font-weight:300;color:var(--charcoal);line-height:1.6;font-style:italic;" id="complete-daily-msg">What you just activated is already in motion.</div>
+      </div>
+
+      <div style="background:var(--cream-dark);border-radius:var(--r);padding:16px;margin-bottom:24px;">
+        <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--charcoal-muted);margin-bottom:4px;">Your streak</div>
+        <div style="font-family:var(--font-d);font-size:24px;color:var(--charcoal);" id="complete-streak">Day 1 ✦</div>
+        <div style="font-size:12px;color:var(--charcoal-soft);margin-top:2px;">Every day you show up, the field compounds.</div>
+      </div>
+
       <button class="btn gold" onclick="navHome()">Return home</button>
-      <button class="btn ghost" onclick="go('screen-support')">Get support</button>
       <div class="gdiv"></div>
       <p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;" id="complete-hd-msg">Your consistency is the frequency.</p>
     </div>
@@ -667,6 +711,10 @@ const HD = {
 // ══════════════════════════════
 const MORNING_STEPS = [
   { name:'Arriving', render: () => `
+    <div style="background:var(--gold-pale);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Why this works</div>
+      <div style="font-family:var(--font-d);font-size:15px;color:var(--charcoal-mid);line-height:1.6;font-style:italic;">These prompts are neuroscience-backed and channeled to rewire your brain toward what you are calling in. The more honest you are, the faster the shift. Your answers are private and live only on your account.</div>
+    </div>
     <div class="flow-q">How are you arriving today?</div>
     <div class="flow-hint">No right answer. Just truth.</div>
     <div class="chips" id="flow-chips">
@@ -723,6 +771,10 @@ const MORNING_STEPS = [
 
 const EVENING_STEPS = [
   { name:'Proud of', render: () => `
+    <div style="background:var(--gold-pale);border-radius:var(--r);padding:14px 16px;margin-bottom:20px;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Why this works</div>
+      <div style="font-family:var(--font-d);font-size:15px;color:var(--charcoal-mid);line-height:1.6;font-style:italic;">These prompts are neuroscience-backed and channeled to ground your brain in evidence of your expansion. Your answers are private and live only on your account.</div>
+    </div>
     <div class="flow-q">Today I am proud of...</div>
     <div class="flow-hint">Nothing is too small. Show up and own it.</div>
     <div class="vrow"><textarea class="pinp" id="flow-inp-proud" placeholder="What you did, chose, felt, or became today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-proud',this)">🎙</button></div>
@@ -841,7 +893,10 @@ async function doSignup() {
   U = data.user;
   await sb.from('profiles').upsert({ id: U.id, name });
   await loadProfile();
-  go('screen-onboard');
+  // Show welcome screen once after signup
+  const welcomeName = document.getElementById('welcome-why-name');
+  if(welcomeName) welcomeName.innerHTML = `Welcome, <br><em>${name}.</em>`;
+  go('screen-welcome-why');
 }
 
 async function doSignout() {
@@ -1003,6 +1058,40 @@ function saveCurrentAnswer() {
   }
 }
 
+const DAILY_MESSAGES = [
+  "What you just activated is already in motion. The field doesn't miss a thing.",
+  "You didn't just journal. You sent a signal to the Universe about who you are becoming.",
+  "Ancient wisdom meets modern neuroscience. Every word you wrote rewired something.",
+  "Your quantum leap isn't coming. It's already unfolding. This practice is proof.",
+  "The version of you who has it all does exactly this. You just became her.",
+  "What you declared today has been received. Now let the field do its work.",
+  "Consistency is the frequency the Universe responds to. You showed up. That matters.",
+  "Your brain doesn't know the difference between what is real and what is vividly imagined. You just activated both.",
+  "Every morning practice compounds. Every evening practice seals it. You are building something real.",
+  "The gap between where you are and where you're going just got smaller. Keep going.",
+  "Manifestation is not wishing. It is training the brain to live in the reality before it arrives.",
+  "What you focus on expands. You just focused on your highest self. Watch what happens next.",
+  "The field always responds to intention. Yours just got louder.",
+  "You are not waiting for your life to change. You are changing the frequency that creates it.",
+  "This practice works because your subconscious cannot tell the difference between now and the vision. You just planted both.",
+  "One day you'll look back and realize this was the practice that made everything click.",
+  "Your desires are not accidents. They are encoded instructions. You just gave them voice.",
+  "Every time you show up here you are closing the gap between who you are and who you're becoming.",
+  "The Universe is always saying yes to your dominant frequency. You just raised yours.",
+  "This is not hope. This is activation. There is a difference — and you just felt it.",
+  "You are not manifesting from scratch. You are remembering what was always yours.",
+  "The brain rewires through repetition and emotion. You just gave it both. It is working.",
+  "What you just did has been done by mystics, quantum physicists, and the most successful humans alive. You are in good company.",
+  "Your expansion is already coded in. This practice is how you access it.",
+  "Something shifted today. You may not see it yet. But the field did.",
+  "The practice doesn't need to be perfect. It needs to be consistent. You showed up. That's everything.",
+  "Ancient traditions called it prayer. Neuroscience calls it neuroplasticity. You call it your morning practice. All three are right.",
+  "What you wrote today became part of your identity programming. Your brain is now looking for evidence it's true.",
+  "You activated your field. Now live your day like it's already done.",
+  "The most powerful thing you can do for your future is exactly what you just did.",
+  "Your quantum leap is not a destination. It is a frequency. You just tuned in.",
+];
+
 async function completeFlow() {
   saveCurrentAnswer();
   stopVoice();
@@ -1011,9 +1100,15 @@ async function completeFlow() {
   await saveEntry(mode, (firstAnswer || mode + ' practice').slice(0,80));
 
   const hd = profile ? (HD[profile.hd_type] || HD['Unknown']) : HD['Unknown'];
+  const streak = calcStreak();
+  const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0)) / 86400000);
+  const dailyMsg = DAILY_MESSAGES[dayOfYear % DAILY_MESSAGES.length];
+
   setText('complete-icon', '✦');
-  setText('complete-title', currentFlow === 'morning' ? 'You activated your field.' : 'Your field is sealed.');
-  setText('complete-sub', 'Your practice is complete. Every answer was received.');
+  setText('complete-title', currentFlow === 'morning' ? 'Your field is activated.' : 'Your field is sealed.');
+  setText('complete-sub', 'Every word was received. Every intention is in motion.');
+  setText('complete-daily-msg', dailyMsg);
+  setText('complete-streak', `Day ${streak} ✦`);
   setText('complete-hd-msg', currentFlow === 'morning' ? hd.complete_m : hd.complete_e);
   go('screen-complete');
 }
@@ -1309,7 +1404,17 @@ async function loadAndGo() {
     U = data.session.user;
     await loadProfile();
     if(!profile || !profile.hd_type) {
-      go('screen-onboard');
+      // New user via Google — show welcome screen first
+      const name = profile?.name || U.user_metadata?.full_name?.split(' ')[0] || 'Friend';
+      if(!profile) await sb.from('profiles').upsert({ id: U.id, name });
+      const welcomeName = document.getElementById('welcome-why-name');
+      if(welcomeName) welcomeName.innerHTML = `Welcome,<br><em>${name}.</em>`;
+      // If they have a name but no HD type, skip welcome and go straight to HD
+      if(profile && profile.name && !profile.hd_type) {
+        go('screen-onboard');
+      } else {
+      go('screen-welcome-why');
+      }
     } else {
       applyHD();
       await loadEntries();
