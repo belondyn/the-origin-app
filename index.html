@@ -1303,14 +1303,7 @@ function runSplash() {
 // ══════════════════════════════
 // INIT
 // ══════════════════════════════
-async function init() {
-  // If this is a Google OAuth callback, give Supabase a moment to process it
-  const isOAuthCallback = window.location.hash.includes('access_token');
-  if(isOAuthCallback) {
-    window.history.replaceState({}, document.title, window.location.pathname);
-    await new Promise(r => setTimeout(r, 500));
-  }
-
+async function loadAndGo() {
   const { data } = await sb.auth.getSession();
   if(data.session) {
     U = data.session.user;
@@ -1328,6 +1321,27 @@ async function init() {
     go('screen-splash');
     runSplash();
   }
+}
+
+async function init() {
+  // Supabase v2 auto-handles the OAuth hash — just listen for the event
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if(event === 'SIGNED_IN' && session && !U) {
+      U = session.user;
+      await loadProfile();
+      if(!profile || !profile.hd_type) {
+        go('screen-onboard');
+      } else {
+        applyHD();
+        await loadEntries();
+        loadHabits();
+        updateHome();
+        navHome();
+      }
+    }
+  });
+
+  await loadAndGo();
 }
 
 init();
