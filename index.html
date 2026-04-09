@@ -632,12 +632,35 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
     <div id="ins-patterns"><div class="icard"><div class="it">Keep showing up</div><div class="ib">As your entries build, patterns will surface here. The field is always tracking, always reflecting.</div></div></div>
     <div style="height:20px;"></div>
     <button class="btn gold" onclick="nav('screen-support',null)">Get support on these patterns →</button>
+    <button class="btn ghost" onclick="nav('screen-journal',null)" style="margin-top:0;">View my journal history →</button>
   </div>
   <div class="bnav">
     <button class="nb" onclick="navHome(this)"><span class="ni">⌂</span><span class="nl">Home</span></button>
     <button class="nb" onclick="nav('screen-habits',this)"><span class="ni">◎</span><span class="nl">Habits</span></button>
     <button class="nb on" onclick="nav('screen-insights',this)"><span class="ni">≋</span><span class="nl">Insights</span></button>
     <button class="nb" onclick="nav('screen-support',this)"><span class="ni">✦</span><span class="nl">Support</span></button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  JOURNAL HISTORY
+══════════════════════ -->
+<div class="screen" id="screen-journal">
+  <div class="topnav"><button class="back" onclick="nav('screen-insights',null)">← insights</button><span class="nav-title">Your Journal</span></div>
+  <div class="scroll" style="padding-top:16px;">
+    <p class="lbl" style="margin-bottom:4px;">Time travel</p>
+    <p style="font-family:var(--font-d);font-size:20px;color:var(--charcoal);margin-bottom:20px;"><em>Every entry. Every shift. All yours.</em></p>
+    <div id="journal-list"><p class="body-t" style="color:var(--charcoal-muted);">Your entries will appear here as you build your practice.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════
+  ENTRY DETAIL
+══════════════════════ -->
+<div class="screen" id="screen-entry-detail">
+  <div class="topnav"><button class="back" onclick="go('screen-journal')">← journal</button><span class="nav-title" id="detail-title">Entry</span></div>
+  <div class="scroll" style="padding-top:16px;">
+    <div id="detail-content"></div>
   </div>
 </div>
 
@@ -814,14 +837,14 @@ const MORNING_STEPS = [
     <div class="vstatus" id="vs-flow-inp-calling">Listening…</div>` },
   { name:'Habits', render: () => `
     <div class="flow-q">Mark what you've done today:</div>
-    <div class="flow-hint">Journaled is already yours.</div>
+    <div class="flow-hint">Journaled and Morning ritual are yours for showing up.</div>
     <div class="hgrid" style="margin-top:16px;">
-      <div class="hitem ${todayH.includes(0)?'done':''}" onclick="toggleH(0);this.classList.toggle('done')"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem done auto"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
       <div class="hitem done auto"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
       <div class="hitem ${todayH.includes(2)?'done':''}" onclick="toggleH(2);this.classList.toggle('done')"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
       <div class="hitem ${todayH.includes(3)?'done':''}" onclick="toggleH(3);this.classList.toggle('done')"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
       <div class="hitem ${todayH.includes(4)?'done':''}" onclick="toggleH(4);this.classList.toggle('done')"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
-      <div class="hitem ${todayH.includes(5)?'done':''}" onclick="toggleH(5);this.classList.toggle('done')"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+      <div class="hitem" style="opacity:0.4;pointer-events:none;"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
     </div>` },
 ];
 
@@ -862,14 +885,14 @@ const EVENING_STEPS = [
     <div class="vstatus" id="vs-flow-inp-tomorrow">Listening…</div>` },
   { name:'Habits', render: () => `
     <div class="flow-q">Mark what you've completed today:</div>
-    <div class="flow-hint">Honor your momentum.</div>
+    <div class="flow-hint">Evening review and Journaled are yours. Honor the rest.</div>
     <div class="hgrid" style="margin-top:16px;">
-      <div class="hitem ${todayH.includes(0)?'done':''}" onclick="toggleH(0);this.classList.toggle('done')"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem ${todayH.includes(0)?'done auto':''}" style="${todayH.includes(0)?'':'opacity:0.5;'}" onclick="${todayH.includes(0)?'':''}" ><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
       <div class="hitem done auto"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
       <div class="hitem ${todayH.includes(2)?'done':''}" onclick="toggleH(2);this.classList.toggle('done')"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
       <div class="hitem ${todayH.includes(3)?'done':''}" onclick="toggleH(3);this.classList.toggle('done')"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
       <div class="hitem ${todayH.includes(4)?'done':''}" onclick="toggleH(4);this.classList.toggle('done')"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
-      <div class="hitem ${todayH.includes(5)?'done':''}" onclick="toggleH(5);this.classList.toggle('done')"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+      <div class="hitem done auto"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
     </div>` },
 ];
 
@@ -897,6 +920,7 @@ function nav(id, btn) {
   if(btn) { document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
   if(id === 'screen-insights') updateInsights();
   if(id === 'screen-settings') renderSettings();
+  if(id === 'screen-journal') renderJournalHistory();
 }
 
 function confirmExit() {
@@ -1090,6 +1114,8 @@ function renderFlowStep() {
     ${isLast ? `<div class="nudge" style="margin-top:16px;"><div class="nudge-type">${profile ? profile.hd_type : 'Your design'}</div><div class="nudge-text">${completeMsg}</div></div>` : ''}
   `;
   window.scrollTo(0,0);
+  // Restore saved answer after DOM renders
+  setTimeout(restoreAnswer, 50);
 }
 
 function nextStep() {
@@ -1099,6 +1125,7 @@ function nextStep() {
 }
 
 function prevStep() {
+  saveCurrentAnswer();
   if(currentStep > 0) { currentStep--; renderFlowStep(); }
 }
 
@@ -1112,6 +1139,24 @@ function saveCurrentAnswer() {
     const inp = document.querySelector('[id^="flow-inp-"]');
     if(inp && inp.value.trim()) flowAnswers[key] = inp.value.trim();
   }
+}
+
+function restoreAnswer() {
+  // Restore previously typed answer when navigating back to a step
+  const steps = currentFlow === 'morning' ? MORNING_STEPS : EVENING_STEPS;
+  const key = steps[currentStep].name;
+  const saved = flowAnswers[key];
+  if(!saved) return;
+  // Restore chips
+  const chips = document.querySelectorAll('#flow-chips .chip');
+  if(chips.length) {
+    const selected = saved.split(', ');
+    chips.forEach(c => { if(selected.includes(c.textContent)) c.classList.add('on'); });
+    return;
+  }
+  // Restore text input
+  const inp = document.querySelector('[id^="flow-inp-"]');
+  if(inp) inp.value = saved;
 }
 
 const DAILY_MESSAGES = [
@@ -1153,16 +1198,18 @@ async function completeFlow() {
   stopVoice();
   const firstAnswer = Object.values(flowAnswers).find(v => v && v.length > 2) || '';
   const mode = currentFlow === 'morning' ? 'Morning' : 'Evening';
-  await saveEntry(mode, (firstAnswer || mode + ' practice').slice(0,80));
+  await saveEntry(mode, (firstAnswer || mode + ' practice').slice(0,80), flowAnswers);
 
   const hd = profile ? (HD[profile.hd_type] || HD['Unknown']) : HD['Unknown'];
   const streak = calcStreak();
   const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0)) / 86400000);
   const dailyMsg = DAILY_MESSAGES[dayOfYear % DAILY_MESSAGES.length];
+  const now = new Date();
+  const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
 
   setText('complete-icon', '✦');
   setText('complete-title', currentFlow === 'morning' ? 'Your field is activated.' : 'Your field is sealed.');
-  setText('complete-sub', 'Every word was received. Every intention is in motion.');
+  setText('complete-sub', 'Saved ' + timeStr + ' · Every word was received. Every intention is in motion.');
   setText('complete-daily-msg', dailyMsg);
   setText('complete-streak', `Day ${streak} ✦`);
   setText('complete-hd-msg', currentFlow === 'morning' ? hd.complete_m : hd.complete_e);
@@ -1179,9 +1226,16 @@ async function loadEntries() {
   updateInsights();
 }
 
-async function saveEntry(mode, preview) {
+async function saveEntry(mode, preview, answers) {
   if(!U) return;
-  const entry = { user_id: U.id, mode, preview, hd_type: profile ? profile.hd_type : '', created_at: new Date().toISOString() };
+  const entry = { 
+    user_id: U.id, 
+    mode, 
+    preview, 
+    hd_type: profile ? profile.hd_type : '', 
+    answers: answers ? JSON.stringify(answers) : null,
+    created_at: new Date().toISOString() 
+  };
   await sb.from('entries').insert(entry);
   await loadEntries();
   updateHome();
@@ -1369,12 +1423,17 @@ async function saveHomeWin(id) {
 async function saveProcessing(action) {
   const v = document.getElementById('pr-what')?.value.trim() || '';
   const moods = [...document.querySelectorAll('#proc-chips .chip.on')].map(c=>c.textContent).join(', ');
-  await saveEntry('Processing', (v || moods || 'Processing entry').slice(0,60));
+  const preview = (v || moods || 'Processing entry').slice(0,60);
+  await saveEntry('Processing', preview, { moods, expression: v });
   stopVoice();
+  const now = new Date();
+  const timeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
   setText('complete-icon', '✦');
   setText('complete-title', 'You expressed your truth.');
-  setText('complete-sub', 'Your field received it. Support features are coming soon.');
-  setText('complete-hd-msg', 'Sometimes expression alone is the medicine.');
+  setText('complete-sub', 'Saved ' + timeStr + ' · Your field received it.');
+  setText('complete-daily-msg', 'Sometimes expression alone is the medicine. Support features coming soon.');
+  setText('complete-streak', '');
+  setText('complete-hd-msg', '');
   go('screen-complete');
 }
 
@@ -1457,6 +1516,93 @@ function updateInsights() {
 // ══════════════════════════════
 // SETTINGS
 // ══════════════════════════════
+function renderJournalHistory() {
+  const cont = document.getElementById('journal-list');
+  if(!cont) return;
+  if(!entries.length) {
+    cont.innerHTML = '<p class="body-t" style="color:var(--charcoal-muted);">Your entries will appear here as you build your practice.</p>';
+    return;
+  }
+
+  // Group entries by date
+  const groups = {};
+  entries.forEach(e => {
+    const d = new Date(e.created_at);
+    const key = d.toDateString();
+    if(!groups[key]) groups[key] = [];
+    groups[key].push(e);
+  });
+
+  const ms = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  cont.innerHTML = Object.entries(groups).map(([dateStr, dayEntries]) => {
+    const d = new Date(dateStr);
+    const label = days[d.getDay()] + ', ' + ms[d.getMonth()] + ' ' + d.getDate();
+    const items = dayEntries.map(e => {
+      const t = new Date(e.created_at);
+      const time = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+      const hasAnswers = e.answers && e.answers !== 'null';
+      return `<div class="eitem" onclick="openEntry('${e.id}')" style="cursor:pointer;margin-bottom:8px;">
+        <div style="flex:1;overflow:hidden;">
+          <div class="edate">${e.mode} · ${time}</div>
+          <div class="emode">${e.preview}</div>
+          ${hasAnswers ? '<div style="font-size:11px;color:var(--gold);margin-top:3px;letter-spacing:0.06em;">Tap to read full entry →</div>' : ''}
+        </div>
+        <button class="edel" onclick="event.stopPropagation();delEntry('${e.id}')">×</button>
+      </div>`;
+    }).join('');
+
+    return `<div style="margin-bottom:24px;">
+      <div style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--charcoal-muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--cream-mid);">${label}</div>
+      ${items}
+    </div>`;
+  }).join('');
+}
+
+function openEntry(id) {
+  const entry = entries.find(e => e.id == id);
+  if(!entry) return;
+
+  const d = new Date(entry.created_at);
+  const ms = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const dateStr = days[d.getDay()] + ', ' + ms[d.getMonth()] + ' ' + d.getDate();
+  const time = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+
+  setText('detail-title', entry.mode + ' · ' + dateStr);
+
+  let answersHtml = '';
+  if(entry.answers && entry.answers !== 'null') {
+    try {
+      const answers = JSON.parse(entry.answers);
+      answersHtml = Object.entries(answers).map(([key, val]) => {
+        if(!val || val === 'null') return '';
+        return `<div style="margin-bottom:20px;">
+          <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">${key}</div>
+          <div style="font-family:var(--font-d);font-size:17px;color:var(--charcoal);line-height:1.6;">${val}</div>
+        </div>`;
+      }).filter(Boolean).join('<div class="gdiv"></div>');
+    } catch(e) {
+      answersHtml = `<p class="body-t">${entry.preview}</p>`;
+    }
+  } else {
+    answersHtml = `<p class="body-t">${entry.preview}</p>`;
+  }
+
+  const cont = document.getElementById('detail-content');
+  if(cont) cont.innerHTML = `
+    <div style="background:var(--gold-pale);border-radius:var(--r);padding:16px;margin-bottom:24px;">
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">${entry.mode}</div>
+      <div style="font-size:12px;color:var(--charcoal-muted);">${dateStr} at ${time}</div>
+    </div>
+    ${answersHtml}
+    <div style="height:20px;"></div>
+  `;
+
+  go('screen-entry-detail');
+}
+
 function renderSettings() {
   if(!profile) return;
   setText('set-name', profile.name || '');
