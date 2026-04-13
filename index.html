@@ -25,7 +25,7 @@
   --rs: 10px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { background: var(--cream); font-family: var(--font-b); color: var(--charcoal); min-height: 100vh; overflow-x: hidden; }
+html { font-size: 18px; } body { background: var(--cream); font-family: var(--font-b); color: var(--charcoal); min-height: 100vh; overflow-x: hidden; font-size: 18px; }
 .shell { max-width: 420px; margin: 0 auto; min-height: 100vh; background: var(--cream); }
 .screen { display: none; flex-direction: column; min-height: 100vh; }
 .screen.active { display: flex; animation: fadeIn 0.3s ease; }
@@ -34,7 +34,7 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .scroll::-webkit-scrollbar { display:none; }
 .status { display:flex; justify-content:space-between; padding:14px 24px 6px; font-size:11px; color:var(--charcoal-muted); letter-spacing:0.04em; }
 .topnav { display:flex; align-items:center; padding:14px 24px 0; gap:12px; }
-.back { font-family:var(--font-b); font-size:13px; color:var(--gold); cursor:pointer; letter-spacing:0.06em; text-transform:uppercase; background:none; border:none; padding:0; }
+.back { font-family:var(--font-b); font-size:15px; color:var(--gold); cursor:pointer; letter-spacing:0.06em; text-transform:uppercase; background:none; border:none; padding:0; }
 .nav-title { font-family:var(--font-d); font-size:18px; font-weight:400; color:var(--charcoal); }
 .bnav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:420px; background:rgba(249,246,240,0.96); backdrop-filter:blur(12px); border-top:1px solid var(--cream-mid); display:flex; padding:8px 0 20px; z-index:100; }
 .nb { flex:1; background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 0; }
@@ -43,16 +43,16 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .nb.on .ni, .nb.on .nl { color:var(--gold); }
 .div { height:1px; background:var(--cream-mid); margin:20px 0; }
 .gdiv { height:1px; background:linear-gradient(to right,transparent,var(--gold-light),transparent); margin:20px 0; }
-.disp { font-family:var(--font-d); font-size:32px; font-weight:300; line-height:1.2; color:var(--charcoal); }
-.lbl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal-muted); font-weight:400; }
-.body-t { font-size:14px; line-height:1.7; color:var(--charcoal-soft); }
-.btn { width:100%; padding:16px; background:var(--charcoal); color:var(--cream); border:none; border-radius:var(--r); font-family:var(--font-b); font-size:13px; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-bottom:10px; }
+.disp { font-family:var(--font-d); font-size:38px; font-weight:300; line-height:1.2; color:var(--charcoal); }
+.lbl { font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal-muted); font-weight:400; }
+.body-t { font-size:16px; line-height:1.7; color:var(--charcoal-soft); }
+.btn { width:100%; padding:18px; background:var(--charcoal); color:var(--cream); border:none; border-radius:var(--r); font-family:var(--font-b); font-size:15px; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-bottom:10px; }
 .btn:active { transform:scale(0.98); }
 .btn.gold { background:var(--gold); color:var(--white); }
 .btn.ghost { background:none; color:var(--charcoal-soft); border:1px solid var(--cream-mid); }
 .btn.dim { opacity:0.5; cursor:default; }
 .flbl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal-muted); margin-bottom:8px; display:block; }
-.finp { width:100%; border:1px solid var(--cream-mid); border-radius:var(--rs); padding:14px 16px; font-size:15px; font-family:var(--font-b); color:var(--charcoal); background:var(--white); outline:none; transition:border-color 0.2s; }
+.finp { width:100%; border:1px solid var(--cream-mid); border-radius:var(--rs); padding:16px 18px; font-size:17px; font-family:var(--font-b); color:var(--charcoal); background:var(--white); outline:none; transition:border-color 0.2s; }
 .finp:focus { border-color:var(--gold-light); }
 .hd-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .hdo { border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 14px; cursor:pointer; background:var(--white); transition:all 0.2s; text-align:left; }
@@ -62,9 +62,9 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .hdo.full { grid-column:1/-1; }
 .hdo.dash { border-style:dashed; }
 .hdn { font-family:var(--font-d); font-size:16px; font-weight:500; color:var(--charcoal); display:block; margin-bottom:4px; }
-.hdd { font-size:11px; color:var(--charcoal-muted); line-height:1.4; }
+.hdd { font-size:13px; color:var(--charcoal-muted); line-height:1.4; }
 .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
-.chip { padding:8px 16px; border:1px solid var(--cream-mid); border-radius:30px; font-size:13px; color:var(--charcoal-soft); cursor:pointer; background:var(--white); transition:all 0.15s; font-family:var(--font-b); }
+.chip { padding:10px 18px; border:1px solid var(--cream-mid); border-radius:30px; font-size:15px; color:var(--charcoal-soft); cursor:pointer; background:var(--white); transition:all 0.15s; font-family:var(--font-b); }
 .chip.on { background:var(--gold-pale); color:var(--gold); border-color:var(--gold); }
 .tag { padding:7px 14px; border:1px solid var(--cream-mid); border-radius:30px; font-size:12px; color:var(--charcoal-soft); cursor:pointer; background:var(--white); transition:all 0.15s; }
 .tag.on { background:var(--cream-dark); color:var(--charcoal); border-color:var(--charcoal-muted); }
@@ -73,12 +73,12 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .progress-wrap { padding:16px 24px 0; }
 .progress-track { height:3px; background:var(--cream-mid); border-radius:2px; margin-bottom:6px; }
 .progress-fill { height:3px; border-radius:2px; background:var(--gold); transition:width 0.4s ease; }
-.progress-label { font-size:11px; color:var(--charcoal-muted); letter-spacing:0.06em; display:flex; justify-content:space-between; }
+.progress-label { font-size:14px; color:var(--charcoal-muted); letter-spacing:0.06em; display:flex; justify-content:space-between; }
 
 /* FLOW SCREEN */
-.flow-q { font-family:var(--font-d); font-size:26px; font-weight:300; color:var(--charcoal); line-height:1.3; margin-bottom:8px; }
-.flow-hint { font-size:13px; color:var(--charcoal-muted); line-height:1.6; margin-bottom:20px; font-style:italic; }
-.pinp { width:100%; border:1px solid var(--cream-mid); border-radius:var(--rs); padding:14px 16px; font-size:14px; font-family:var(--font-b); color:var(--charcoal); background:var(--white); resize:none; outline:none; line-height:1.6; transition:border-color 0.2s; min-height:100px; }
+.flow-q { font-family:var(--font-d); font-size:30px; font-weight:300; color:var(--charcoal); line-height:1.3; margin-bottom:8px; }
+.flow-hint { font-size:17px; color:var(--charcoal-muted); line-height:1.6; margin-bottom:20px; font-style:italic; }
+.pinp { width:100%; border:1px solid var(--cream-mid); border-radius:var(--rs); padding:14px 16px; font-size:16px; font-family:var(--font-b); color:var(--charcoal); background:var(--white); resize:none; outline:none; line-height:1.6; transition:border-color 0.2s; min-height:100px; }
 .pinp:focus { border-color:var(--gold-light); }
 .vrow { display:flex; gap:10px; align-items:flex-start; }
 .vrow .pinp { flex:1; }
@@ -89,20 +89,22 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .vstatus { font-size:11px; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; margin-top:5px; display:none; }
 .vstatus.show { display:block; }
 .nudge { background:var(--gold-pale); border-left:2px solid var(--gold); border-radius:0 var(--rs) var(--rs) 0; padding:14px 16px; margin-bottom:22px; }
-.nudge-type { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
-.nudge-text { font-family:var(--font-d); font-size:15px; color:var(--charcoal-mid); line-height:1.6; font-style:italic; }
-.home-date { font-size:12px; letter-spacing:0.08em; color:var(--charcoal-muted); text-transform:uppercase; margin-bottom:6px; }
-.momentum { font-family:var(--font-d); font-size:15px; color:var(--charcoal-soft); font-style:italic; margin-bottom:22px; line-height:1.5; }
-.practice-card { background:var(--charcoal); border-radius:var(--r); padding:24px 22px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; }
+.nudge-type { font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+.nudge-text { font-family:var(--font-d); font-size:19px; color:var(--charcoal-mid); line-height:1.6; font-style:italic; }
+.home-date { font-size:14px; letter-spacing:0.08em; color:var(--charcoal-muted); text-transform:uppercase; margin-bottom:6px; }
+.momentum { font-family:var(--font-d); font-size:17px; color:var(--charcoal-soft); font-style:italic; margin-bottom:22px; line-height:1.5; }
+.practice-card { background:var(--charcoal); border-radius:var(--r); padding:24px 22px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; animation:breathe 4s ease-in-out infinite; }
+@keyframes completePulse { 0%{transform:scale(0.5);opacity:0;} 60%{transform:scale(1.2);} 100%{transform:scale(1);opacity:1;} }
+@keyframes breathe { 0%,100%{box-shadow:0 4px 20px rgba(184,150,90,0.15);transform:scale(1);} 50%{box-shadow:0 8px 32px rgba(184,150,90,0.35);transform:scale(1.01);} }
 .practice-card:active { transform:scale(0.99); }
-.practice-card .pc-label { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-light); margin-bottom:8px; }
-.practice-card .pc-title { font-family:var(--font-d); font-size:30px; font-weight:300; color:var(--cream); margin-bottom:4px; line-height:1.2; }
-.practice-card .pc-sub { font-size:12px; color:var(--charcoal-muted); margin-top:6px; }
+.practice-card .pc-label { font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-light); margin-bottom:8px; }
+.practice-card .pc-title { font-family:var(--font-d); font-size:36px; font-weight:300; color:var(--cream); margin-bottom:4px; line-height:1.2; }
+.practice-card .pc-sub { font-size:15px; color:var(--charcoal-muted); margin-top:6px; }
 .practice-card.eve { background:var(--charcoal-mid); }
 .quick-card { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 20px; cursor:pointer; transition:all 0.2s; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
 .quick-card:hover { border-color:var(--gold-light); }
-.quick-card .qc-title { font-family:var(--font-d); font-size:18px; font-weight:500; color:var(--charcoal); }
-.quick-card .qc-sub { font-size:12px; color:var(--charcoal-muted); margin-top:2px; }
+.quick-card .qc-title { font-family:var(--font-d); font-size:20px; font-weight:500; color:var(--charcoal); }
+.quick-card .qc-sub { font-size:14px; color:var(--charcoal-muted); margin-top:2px; }
 .quick-card .qc-arrow { font-size:18px; color:var(--gold-light); }
 .streak-row { display:flex; gap:6px; margin-bottom:22px; }
 .sday { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:11px; letter-spacing:0.04em; }
@@ -112,23 +114,23 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .icard { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 18px; margin-bottom:10px; cursor:pointer; transition:all 0.2s; }
 .icard:hover { border-color:var(--gold-light); }
 .icard .it { font-family:var(--font-d); font-size:17px; font-weight:500; color:var(--charcoal); margin-bottom:4px; }
-.icard .ib { font-size:13px; color:var(--charcoal-soft); line-height:1.6; }
+.icard .ib { font-size:15px; color:var(--charcoal-soft); line-height:1.6; }
 .eitem { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:14px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-start; }
-.edate { font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
-.emode { font-family:var(--font-d); font-size:16px; font-weight:500; color:var(--charcoal); margin-bottom:3px; }
-.eprev { font-size:13px; color:var(--charcoal-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
+.edate { font-size:13px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:3px; }
+.emode { font-family:var(--font-d); font-size:18px; font-weight:500; color:var(--charcoal); margin-bottom:3px; }
+.eprev { font-size:15px; color:var(--charcoal-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
 .edel { background:none; border:none; cursor:pointer; color:var(--charcoal-muted); font-size:20px; padding:0 0 0 10px; line-height:1; flex-shrink:0; }
 .hgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:22px; }
 .hitem { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 10px; text-align:center; cursor:pointer; transition:all 0.2s; }
 .hitem:active { transform:scale(0.96); }
 .hitem.done { background:var(--charcoal); border-color:var(--charcoal); }
-.hicon { font-size:20px; margin-bottom:6px; display:block; color:var(--charcoal-muted); }
-.hlbl { font-size:11px; color:var(--charcoal-soft); letter-spacing:0.04em; }
+.hicon { font-size:26px; margin-bottom:6px; display:block; color:var(--charcoal-muted); }
+.hlbl { font-size:14px; color:var(--charcoal-soft); letter-spacing:0.04em; }
 .hitem.done .hicon { color:var(--gold-light); }
 .hitem.done .hlbl { color:var(--cream); }
 .hitem.done.auto .hicon { color:var(--charcoal-muted); }
 .brow { margin-bottom:14px; }
-.bmeta { display:flex; justify-content:space-between; font-size:12px; color:var(--charcoal-soft); margin-bottom:5px; }
+.bmeta { display:flex; justify-content:space-between; font-size:14px; color:var(--charcoal-soft); margin-bottom:5px; }
 .btrack { height:4px; background:var(--cream-mid); border-radius:2px; }
 .bfill { height:4px; border-radius:2px; background:var(--charcoal); transition:width 0.8s ease; }
 .bfill.g { background:var(--gold); }
@@ -138,29 +140,29 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 .hc-title { font-family:var(--font-d); font-size:18px; font-weight:500; color:var(--charcoal); margin-bottom:4px; }
 .hc-body { font-size:13px; color:var(--charcoal-soft); line-height:1.5; }
 .soon { position:absolute; top:14px; right:14px; background:var(--cream-dark); color:var(--charcoal-muted); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; padding:4px 10px; border-radius:20px; }
-.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--charcoal); color:var(--cream); padding:10px 24px; border-radius:30px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0; transition:all 0.3s; z-index:300; pointer-events:none; white-space:nowrap; }
+.toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--charcoal); color:var(--cream); padding:12px 28px; border-radius:30px; font-size:14px; letter-spacing:0.08em; text-transform:uppercase; opacity:0; transition:all 0.3s; z-index:300; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 .ob-logo { font-family:var(--font-d); font-size:13px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:40px; }
-.ob-tag { font-family:var(--font-d); font-size:36px; font-weight:300; line-height:1.3; color:var(--charcoal); margin-bottom:16px; }
-.ob-sub { font-size:14px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:36px; }
+.ob-tag { font-family:var(--font-d); font-size:40px; font-weight:300; line-height:1.3; color:var(--charcoal); margin-bottom:16px; }
+.ob-sub { font-size:16px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:36px; }
 #screen-splash { background:var(--cream); justify-content:center; align-items:center; text-align:center; }
-.sw { font-family:var(--font-d); font-size:52px; font-weight:300; color:var(--charcoal); opacity:0; transition:opacity 0.8s ease; line-height:1.2; }
+.sw { font-family:var(--font-d); font-size:62px; font-weight:300; color:var(--charcoal); opacity:0; transition:opacity 0.8s ease; line-height:1.2; }
 .sw.show { opacity:1; }
-.sw-sub { font-family:var(--font-d); font-size:17px; font-style:italic; color:var(--charcoal-soft); opacity:0; transition:opacity 0.8s ease; margin-top:14px; line-height:1.6; }
+.sw-sub { font-family:var(--font-d); font-size:20px; font-style:italic; color:var(--charcoal-soft); opacity:0; transition:opacity 0.8s ease; margin-top:14px; line-height:1.6; }
 .sw-sub.show { opacity:1; }
 .sw-btn { opacity:0; transition:opacity 0.8s ease; margin-top:48px; }
 .sw-btn.show { opacity:1; }
 .confirm { text-align:center; padding:60px 24px; }
 .confirm-icon { font-family:var(--font-d); font-size:52px; color:var(--gold-light); margin-bottom:16px; }
-.confirm-title { font-family:var(--font-d); font-size:30px; font-weight:300; color:var(--charcoal); margin-bottom:8px; }
-.confirm-sub { font-size:14px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:32px; }
+.confirm-title { font-family:var(--font-d); font-size:36px; font-weight:300; color:var(--charcoal); margin-bottom:8px; }
+.confirm-sub { font-size:16px; color:var(--charcoal-soft); line-height:1.6; margin-bottom:32px; }
 
 /* AUTH */
 .auth-wrap { padding:48px 24px; }
 .auth-tab { display:flex; gap:0; margin-bottom:28px; border:1px solid var(--cream-mid); border-radius:var(--rs); overflow:hidden; }
-.auth-tab button { flex:1; padding:12px; background:none; border:none; font-family:var(--font-b); font-size:13px; letter-spacing:0.06em; text-transform:uppercase; cursor:pointer; color:var(--charcoal-muted); transition:all 0.2s; }
+.auth-tab button { flex:1; padding:14px; background:none; border:none; font-family:var(--font-b); font-size:15px; letter-spacing:0.06em; text-transform:uppercase; cursor:pointer; color:var(--charcoal-muted); transition:all 0.2s; }
 .auth-tab button.on { background:var(--charcoal); color:var(--cream); }
-.auth-error { font-size:13px; color:#C4967A; margin-bottom:12px; min-height:20px; }
+.auth-error { font-size:15px; color:#C4967A; margin-bottom:12px; min-height:20px; }
 </style>
 </head>
 <body>
@@ -171,7 +173,7 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 <div class="screen active" id="screen-loading" style="justify-content:center;align-items:center;">
   <div style="text-align:center;">
     <div style="font-family:var(--font-d);font-size:32px;font-weight:300;color:var(--charcoal);margin-bottom:8px;">The Origin</div>
-    <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-family:var(--font-b);">Activation Field</div>
+    <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-family:var(--font-b);">Activation Field.</div>
   </div>
 </div>
 
@@ -181,8 +183,8 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 <div class="screen" id="screen-splash">
   <div style="padding:0 40px;width:100%;">
     <div class="sw" id="sw1">The</div>
-    <div class="sw" id="sw2">Origin.</div>
-    <div class="sw-sub" id="sw3" style="font-size:13px;letter-spacing:0.18em;text-transform:uppercase;font-style:normal;font-family:var(--font-b);font-weight:300;">Activation Field</div>
+    <div class="sw" id="sw2">Origin</div>
+    <div class="sw-sub" id="sw3" style="font-size:13px;letter-spacing:0.18em;text-transform:uppercase;font-style:normal;font-family:var(--font-b);font-weight:300;">Activation Field.</div>
     <div class="sw-sub" id="sw3b" style="margin-top:16px;">Designed in frequency.<br>Built for your quantum leap.</div>
     <div class="sw-btn" id="sw4">
       <button class="btn gold" onclick="go('screen-auth')" style="max-width:260px;margin:0 auto;display:block;">Begin ✦</button>
@@ -197,7 +199,7 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 <div class="screen" id="screen-auth">
   <div class="auth-wrap">
     <div class="ob-logo">The Origin</div>
-    <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--charcoal-muted);margin-top:-32px;margin-bottom:32px;font-family:var(--font-b);font-weight:300;">Activation Field</div>
+    <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--charcoal-muted);margin-top:-32px;margin-bottom:32px;font-family:var(--font-b);font-weight:300;">Activation Field.</div>
     <div class="ob-tag">Welcome<br><em>to your field.</em></div>
     <p class="ob-sub">Your practice lives here accessible from any device, always waiting for you.</p>
 
@@ -353,6 +355,10 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
       <div class="pc-sub" id="morn-practice-sub">Guided · screen by screen · 3 min</div>
     </div>
 
+    <div style="text-align:center;margin-bottom:16px;">
+      <button onclick="switchToEvening()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--charcoal-muted);letter-spacing:0.06em;text-transform:uppercase;text-decoration:underline;padding:0;">Switch to evening practice</button>
+    </div>
+
     <!-- Wins shortcut -->
     <div class="quick-card" onclick="nav('screen-insights',null);setTimeout(()=>{const w=document.getElementById('wins-wall');if(w)w.scrollIntoView({behavior:'smooth'});},300);">
       <div><div class="qc-title">Read your wins ✦</div><div class="qc-sub">Your evidence wall · always growing</div></div>
@@ -413,6 +419,10 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
       <div class="pc-label" id="eve-practice-label">Evening integration</div>
       <div class="pc-title" id="eve-practice-title">Close your<br>day ✦</div>
       <div class="pc-sub" id="eve-practice-sub">Guided · screen by screen · 3 min</div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:16px;">
+      <button onclick="switchToMorning()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--charcoal-muted);letter-spacing:0.06em;text-transform:uppercase;text-decoration:underline;padding:0;">Switch to morning practice</button>
     </div>
 
     <!-- Wins shortcut -->
@@ -532,27 +542,24 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
 <!-- ══════════════════════
   COMPLETION
 ══════════════════════ -->
-<div class="screen" id="screen-complete">
-  <div class="scroll">
-    <div class="confirm">
-      <div class="confirm-icon" id="complete-icon">✦</div>
-      <div class="confirm-title" id="complete-title">You activated your field.</div>
-      <p class="confirm-sub" id="complete-sub">Your practice is complete. The field received everything.</p>
+<div class="screen" id="screen-complete" style="background:var(--charcoal);">
+  <div class="scroll" style="display:flex;flex-direction:column;justify-content:center;min-height:100vh;padding:40px 28px;">
+    <div style="text-align:center;">
+      <div id="complete-icon" style="font-family:var(--font-d);font-size:80px;color:var(--gold-light);margin-bottom:16px;animation:completePulse 1.5s ease-out;">✦</div>
+      <div id="complete-title" style="font-family:var(--font-d);font-size:42px;font-weight:300;color:var(--cream);line-height:1.2;margin-bottom:12px;">Your manifestation<br>is in motion.</div>
+      <p id="complete-sub" style="font-size:16px;color:rgba(247,243,236,0.6);line-height:1.6;margin-bottom:36px;"></p>
 
-      <div style="background:var(--gold-pale);border-radius:var(--r);padding:20px;margin-bottom:20px;text-align:left;">
-        <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Your field today</div>
-        <div style="font-family:var(--font-d);font-size:18px;font-weight:300;color:var(--charcoal);line-height:1.6;font-style:italic;" id="complete-daily-msg">What you just activated is already in motion.</div>
+      <div style="background:rgba(184,150,90,0.15);border:1px solid rgba(184,150,90,0.3);border-radius:var(--r);padding:24px;margin-bottom:24px;text-align:left;">
+        <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light);margin-bottom:10px;">Your field today</div>
+        <div style="font-family:var(--font-d);font-size:20px;font-weight:300;color:var(--cream);line-height:1.6;font-style:italic;" id="complete-daily-msg">What you just activated is already in motion.</div>
       </div>
 
-      <div style="background:var(--cream-dark);border-radius:var(--r);padding:16px;margin-bottom:24px;">
-        <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--charcoal-muted);margin-bottom:4px;">Your streak</div>
-        <div style="font-family:var(--font-d);font-size:24px;color:var(--charcoal);" id="complete-streak">Day 1 ✦</div>
-        <div style="font-size:12px;color:var(--charcoal-soft);margin-top:2px;">Every day you show up, the field compounds.</div>
-      </div>
+      <div id="complete-streak" style="font-family:var(--font-d);font-size:28px;color:var(--gold-light);margin-bottom:6px;">Day 1 ✦</div>
+      <div style="font-size:14px;color:rgba(247,243,236,0.4);margin-bottom:36px;">Every day you show up, the field compounds.</div>
 
-      <button class="btn gold" onclick="navHome()">Return home</button>
-      <div class="gdiv"></div>
-      <p style="font-family:var(--font-d);font-size:16px;color:var(--charcoal-muted);font-style:italic;" id="complete-hd-msg">Your consistency is the frequency.</p>
+      <button class="btn gold" onclick="navHome()" style="font-size:15px;">Return home ✦</button>
+      <div style="height:24px;"></div>
+      <p style="font-family:var(--font-d);font-size:18px;color:rgba(184,150,90,0.7);font-style:italic;" id="complete-hd-msg">Your consistency is the frequency.</p>
     </div>
   </div>
 </div>
@@ -631,7 +638,6 @@ html, body { background: var(--cream); font-family: var(--font-b); color: var(--
     <div class="lbl" style="margin-bottom:12px;">What's emerging</div>
     <div id="ins-patterns"><div class="icard"><div class="it">Keep showing up</div><div class="ib">As your entries build, patterns will surface here. The field is always tracking, always reflecting.</div></div></div>
     <div style="height:20px;"></div>
-    <button class="btn gold" onclick="nav('screen-support',null)">Get support on these patterns →</button>
     <button class="btn ghost" onclick="nav('screen-journal',null)" style="margin-top:0;">View my journal history →</button>
   </div>
   <div class="bnav">
@@ -800,51 +806,51 @@ const MORNING_STEPS = [
       <span class="chip" onclick="tog(this)">Clear</span><span class="chip" onclick="tog(this)">Excited</span><span class="chip" onclick="tog(this)">Open</span><span class="chip" onclick="tog(this)">Peaceful</span><span class="chip" onclick="tog(this)">Energized</span><span class="chip" onclick="tog(this)">Inspired</span><span class="chip" onclick="tog(this)">Grounded</span><span class="chip" onclick="tog(this)">Heavy</span><span class="chip" onclick="tog(this)">Tired</span><span class="chip" onclick="tog(this)">Anxious</span><span class="chip" onclick="tog(this)">Uncertain</span><span class="chip" onclick="tog(this)">In flow</span>
     </div>` },
   { name:'Self love', render: () => `
-    <div class="flow-q">Something I love about myself right now:</div>
-    <div class="flow-hint">Say it like you mean it. You do.</div>
+    <div class="flow-q">Something I genuinely love about myself:</div>
+    <div class="flow-hint">Not what you wish you were. What you actually are. Own it.</div>
     <div class="vrow"><textarea class="pinp" id="flow-inp-self-love" placeholder="I love that I am..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-self-love',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-self-love">Listening…</div>` },
   { name:'Love for others', render: () => `
-    <div class="flow-q">Something I love about someone in my life:</div>
-    <div class="flow-hint">Let the appreciation expand outward.</div>
+    <div class="flow-q">Someone I am genuinely grateful to have in my life:</div>
+    <div class="flow-hint">Feel it as you write it. Gratitude is a frequency, not a thought.</div>
     <div class="vrow"><textarea class="pinp" id="flow-inp-love-others" placeholder="I love that [name] is..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-love-others',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-love-others">Listening…</div>` },
   { name:'Today', render: () => `
-    <div class="flow-q">Why today will be amazing:</div>
-    <div class="flow-hint">Set the field before it unfolds.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp-today" placeholder="Today will be amazing because..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-today',this)">🎙</button></div>
+    <div class="flow-q">Today is going to be extraordinary because:</div>
+    <div class="flow-hint">You are not predicting. You are declaring. The field is listening.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp-today" placeholder="Today is extraordinary because..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-today',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-today">Listening…</div>` },
   { name:'Gratitude', render: () => `
-    <div class="flow-q">I am grateful for...</div>
-    <div class="flow-hint">Name 3 or more. Let them land in your body, not just your mind.</div>
+    <div class="flow-q">What I am genuinely lit up with gratitude for:</div>
+    <div class="flow-hint">Feel each one land in your chest before you move to the next. That feeling is the activation.</div>
     <div class="vrow"><textarea class="pinp" id="flow-inp-gratitude" placeholder="1.&#10;2.&#10;3." rows="5"></textarea><button class="vbtn" onclick="voice('flow-inp-gratitude',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-gratitude">Listening…</div>` },
   { name:'Identity', render: () => `
-    <div class="flow-q">Today I am stepping into...</div>
-    <div class="flow-hint">Speak the version of you that already has it.</div>
+    <div class="flow-q">Today I am fully stepping into:</div>
+    <div class="flow-hint">She already exists. You are not becoming her. You are remembering her. Write from that place.</div>
     <div class="vrow"><textarea class="pinp" id="flow-inp-identity" placeholder="Today I am the woman who..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-identity',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-identity">Listening…</div>` },
   { name:'Feeling', render: () => `
-    <div class="flow-q">I am choosing to feel...</div>
-    <div class="flow-hint">Choose it on purpose. The field responds to your frequency.</div>
+    <div class="flow-q">The frequency I am choosing to radiate today:</div>
+    <div class="flow-hint">Your nervous system does not know the difference between now and the vision. Choose on purpose.</div>
     <div class="chips" id="flow-chips">
       <span class="chip" onclick="tog(this)">Abundant</span><span class="chip" onclick="tog(this)">Powerful</span><span class="chip" onclick="tog(this)">Magnetic</span><span class="chip" onclick="tog(this)">Expansive</span><span class="chip" onclick="tog(this)">Joyful</span><span class="chip" onclick="tog(this)">Aligned</span><span class="chip" onclick="tog(this)">Peaceful</span><span class="chip" onclick="tog(this)">Open</span><span class="chip" onclick="tog(this)">Grounded</span><span class="chip" onclick="tog(this)">Clear</span>
     </div>` },
   { name:'Calling in', render: () => `
-    <div class="flow-q">What I am calling in today:</div>
-    <div class="flow-hint">Declare it. Present tense. As if it's already so.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp-calling" placeholder="I am calling in..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-calling',this)">🎙</button></div>
+    <div class="flow-q">What is already on its way to me:</div>
+    <div class="flow-hint">Present tense. Already done. Already yours. Write it like it just arrived.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp-calling" placeholder="Already mine and arriving now..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-calling',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-calling">Listening…</div>` },
   { name:'Habits', render: () => `
     <div class="flow-q">Mark what you've done today:</div>
-    <div class="flow-hint">Journaled and Morning ritual are yours for showing up.</div>
+    <div class="flow-hint">Tap any to toggle.</div>
     <div class="hgrid" style="margin-top:16px;">
-      <div class="hitem done auto"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
-      <div class="hitem done auto"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
+      <div class="hitem done" onclick="toggleH(0);this.classList.toggle('done')"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem done" onclick="toggleH(1);this.classList.toggle('done')"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
       <div class="hitem ${todayH.includes(2)?'done':''}" onclick="toggleH(2);this.classList.toggle('done')"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
       <div class="hitem ${todayH.includes(3)?'done':''}" onclick="toggleH(3);this.classList.toggle('done')"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
       <div class="hitem ${todayH.includes(4)?'done':''}" onclick="toggleH(4);this.classList.toggle('done')"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
-      <div class="hitem" style="opacity:0.4;pointer-events:none;"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+      <div class="hitem ${todayH.includes(5)?'done':''}" onclick="toggleH(5);this.classList.toggle('done')"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
     </div>` },
 ];
 
@@ -854,19 +860,19 @@ const EVENING_STEPS = [
       <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Why this works</div>
       <div style="font-family:var(--font-d);font-size:15px;color:var(--charcoal-mid);line-height:1.6;font-style:italic;">These prompts are neuroscience-backed and channeled to ground your brain in evidence of your expansion. Your answers are private and live only on your account.</div>
     </div>
-    <div class="flow-q">Today I am proud of...</div>
-    <div class="flow-hint">Nothing is too small. Show up and own it.</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp-proud" placeholder="What you did, chose, felt, or became today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-proud',this)">🎙</button></div>
+    <div class="flow-q">Something I did today that deserves a full yes:</div>
+    <div class="flow-hint">Nothing is too small. You showed up. In what way did you show up for yourself today?</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp-proud" placeholder="Today I chose, did, felt, or became..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-proud',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-proud">Listening…</div>` },
   { name:'Remember', render: () => `
-    <div class="flow-q">What I will remember most about today:</div>
-    <div class="flow-hint">The moment, conversation, or shift that stays with you.</div>
+    <div class="flow-q">The moment from today I want to carry forward:</div>
+    <div class="flow-hint">The one thing that happened today that your future self will be glad you noticed.</div>
     <div class="vrow"><textarea class="pinp" id="flow-inp-remember" placeholder="The thing I won't forget from today..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-remember',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-remember">Listening…</div>` },
   { name:'Experiences', render: () => `
-    <div class="flow-q">Experiences I had that are part of my manifestation:</div>
-    <div class="flow-hint">What showed up, shifted, or moved today — even subtly?</div>
-    <div class="vrow"><textarea class="pinp" id="flow-inp-experiences" placeholder="Signs, synchronicities, aligned moments, things that arrived..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-experiences',this)">🎙</button></div>
+    <div class="flow-q">Evidence that my manifestation is already in motion:</div>
+    <div class="flow-hint">Signs. Synchronicities. People who showed up. Doors that opened. Even the small ones count — especially the small ones.</div>
+    <div class="vrow"><textarea class="pinp" id="flow-inp-experiences" placeholder="Today I noticed, received, or experienced..." rows="4"></textarea><button class="vbtn" onclick="voice('flow-inp-experiences',this)">🎙</button></div>
     <div class="vstatus" id="vs-flow-inp-experiences">Listening…</div>` },
   { name:'Gratitude', render: () => `
     <div class="flow-q">Experiences I'm grateful for that are manifesting:</div>
@@ -885,14 +891,14 @@ const EVENING_STEPS = [
     <div class="vstatus" id="vs-flow-inp-tomorrow">Listening…</div>` },
   { name:'Habits', render: () => `
     <div class="flow-q">Mark what you've completed today:</div>
-    <div class="flow-hint">Evening review and Journaled are yours. Honor the rest.</div>
+    <div class="flow-hint">Tap any to toggle.</div>
     <div class="hgrid" style="margin-top:16px;">
-      <div class="hitem ${todayH.includes(0)?'done auto':''}" style="${todayH.includes(0)?'':'opacity:0.5;'}" onclick="${todayH.includes(0)?'':''}" ><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
-      <div class="hitem done auto"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
+      <div class="hitem ${todayH.includes(0)?'done':''}" onclick="toggleH(0);this.classList.toggle('done')"><span class="hicon">☀</span><span class="hlbl">Morning ritual</span></div>
+      <div class="hitem done" onclick="toggleH(1);this.classList.toggle('done')"><span class="hicon">✍</span><span class="hlbl">Journaled</span></div>
       <div class="hitem ${todayH.includes(2)?'done':''}" onclick="toggleH(2);this.classList.toggle('done')"><span class="hicon">◷</span><span class="hlbl">Movement</span></div>
       <div class="hitem ${todayH.includes(3)?'done':''}" onclick="toggleH(3);this.classList.toggle('done')"><span class="hicon">◎</span><span class="hlbl">Meditation</span></div>
       <div class="hitem ${todayH.includes(4)?'done':''}" onclick="toggleH(4);this.classList.toggle('done')"><span class="hicon">✦</span><span class="hlbl">Self care</span></div>
-      <div class="hitem done auto"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
+      <div class="hitem done" onclick="toggleH(5);this.classList.toggle('done')"><span class="hicon">◈</span><span class="hlbl">Evening review</span></div>
     </div>` },
 ];
 
@@ -908,11 +914,16 @@ function go(id) {
 function navHome(btn) {
   stopVoice();
   const hour = new Date().getHours();
-  const homeId = hour >= 16 ? 'screen-home-evening' : 'screen-home-morning';
+  // Evening runs 4pm to 2:59am (hours 16-23 and 0-2)
+  const isEvening = hour >= 16 || hour < 3;
+  const homeId = isEvening ? 'screen-home-evening' : 'screen-home-morning';
   go(homeId);
   if(btn) { document.querySelectorAll('.nb').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
   updateHome();
 }
+
+function switchToEvening() { go('screen-home-evening'); updateHome(); }
+function switchToMorning() { go('screen-home-morning'); updateHome(); }
 
 function nav(id, btn) {
   stopVoice();
@@ -1213,6 +1224,7 @@ async function completeFlow() {
   setText('complete-daily-msg', dailyMsg);
   setText('complete-streak', `Day ${streak} ✦`);
   setText('complete-hd-msg', currentFlow === 'morning' ? hd.complete_m : hd.complete_e);
+  haptic('celebration');
   go('screen-complete');
 }
 
@@ -1434,6 +1446,7 @@ async function saveProcessing(action) {
   setText('complete-daily-msg', 'Sometimes expression alone is the medicine. Support features coming soon.');
   setText('complete-streak', '');
   setText('complete-hd-msg', '');
+  haptic('success');
   go('screen-complete');
 }
 
@@ -1673,7 +1686,17 @@ function voice(id, btn) {
 // ══════════════════════════════
 // HELPERS
 // ══════════════════════════════
-function tog(el){el.classList.toggle('on');}
+function haptic(style) {
+  try {
+    if(window.navigator && window.navigator.vibrate) {
+      if(style === 'light') window.navigator.vibrate(10);
+      else if(style === 'medium') window.navigator.vibrate(30);
+      else if(style === 'success') window.navigator.vibrate([20,50,20]);
+      else if(style === 'celebration') window.navigator.vibrate([30,50,30,50,80]);
+    }
+  } catch(e) {}
+}
+function tog(el){el.classList.toggle('on');haptic('light');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg||'Saved ✦';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
 
 // ══════════════════════════════
