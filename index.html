@@ -30,7 +30,7 @@ html { font-size: 22px; } body { background: var(--cream); font-family: var(--fo
 .screen { display: none; flex-direction: column; min-height: 100vh; }
 .screen.active { display: flex; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-.scroll { flex:1; overflow-y:auto; padding:0 24px 110px; }
+.scroll { flex:1; overflow-y:auto; padding:0 20px 90px; }
 .scroll::-webkit-scrollbar { display:none; }
 .status { display:flex; justify-content:space-between; padding:14px 24px 6px; font-size:16px; color:var(--charcoal-muted); letter-spacing:0.04em; }
 .topnav { display:flex; align-items:center; padding:14px 24px 0; gap:12px; }
@@ -43,7 +43,7 @@ html { font-size: 22px; } body { background: var(--cream); font-family: var(--fo
 .nb.on .ni, .nb.on .nl { color:var(--gold); }
 .div { height:1px; background:var(--cream-mid); margin:20px 0; }
 .gdiv { height:1px; background:linear-gradient(to right,transparent,var(--gold-light),transparent); margin:20px 0; }
-.disp { font-family:var(--font-d); font-size:44px; font-weight:300; line-height:1.2; color:var(--charcoal); }
+.disp { font-family:var(--font-d); font-size:36px; font-weight:300; line-height:1.1; color:var(--charcoal); }
 .lbl { font-size:16px; letter-spacing:0.1em; text-transform:uppercase; color:var(--charcoal-muted); font-weight:400; }
 .body-t { font-size:18px; line-height:1.7; color:var(--charcoal-soft); }
 .btn { width:100%; padding:18px; background:var(--charcoal); color:var(--cream); border:none; border-radius:var(--r); font-family:var(--font-b); font-size:16px; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; margin-bottom:10px; }
@@ -88,17 +88,18 @@ html { font-size: 22px; } body { background: var(--cream); font-family: var(--fo
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(184,150,90,0.3);}50%{box-shadow:0 0 0 6px rgba(184,150,90,0);} }
 .vstatus { font-size:16px; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; margin-top:5px; display:none; }
 .vstatus.show { display:block; }
-.nudge { background:var(--gold-pale); border-left:2px solid var(--gold); border-radius:0 var(--rs) var(--rs) 0; padding:14px 16px; margin-bottom:22px; }
+.nudge { background:var(--gold-pale); border-left:2px solid var(--gold); border-radius:0 var(--rs) var(--rs) 0; padding:10px 14px; margin-bottom:12px; }
 .nudge-type { font-size:16px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
-.nudge-text { font-family:var(--font-d); font-size:22px; color:var(--charcoal-mid); line-height:1.6; font-style:italic; }
-.home-date { font-size:17px; letter-spacing:0.08em; color:var(--charcoal-muted); text-transform:uppercase; margin-bottom:6px; }
-.momentum { font-family:var(--font-d); font-size:20px; color:var(--charcoal-soft); font-style:italic; margin-bottom:22px; line-height:1.5; }
-.practice-card { background:var(--charcoal); border-radius:var(--r); padding:24px 22px; margin-bottom:12px; cursor:pointer; transition:all 0.2s; animation:breathe 4s ease-in-out infinite; }
+.nudge-text { font-family:var(--font-d); font-size:19px; color:var(--charcoal-mid); line-height:1.4; font-style:italic; }
+.home-date { font-size:16px; letter-spacing:0.08em; color:var(--charcoal-muted); text-transform:uppercase; margin-bottom:4px; }
+.momentum { font-family:var(--font-d); font-size:18px; color:var(--charcoal-soft); font-style:italic; margin-bottom:10px; line-height:1.3; }
+.practice-card { background:var(--charcoal); border-radius:var(--r); padding:18px 20px; margin-bottom:8px; cursor:pointer; transition:all 0.2s; animation:breathe 8s ease-in-out infinite; }
 @keyframes completePulse { 0%{transform:scale(0.5);opacity:0;} 60%{transform:scale(1.2);} 100%{transform:scale(1);opacity:1;} }
 @keyframes breathe { 0%,100%{box-shadow:0 4px 20px rgba(184,150,90,0.15);transform:scale(1);} 50%{box-shadow:0 8px 32px rgba(184,150,90,0.35);transform:scale(1.01);} }
+.practice-card{will-change:transform;}
 .practice-card:active { transform:scale(0.99); }
 .practice-card .pc-label { font-size:16px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-light); margin-bottom:8px; }
-.practice-card .pc-title { font-family:var(--font-d); font-size:42px; font-weight:300; color:var(--cream); margin-bottom:4px; line-height:1.2; }
+.practice-card .pc-title { font-family:var(--font-d); font-size:34px; font-weight:300; color:var(--cream); margin-bottom:2px; line-height:1.1; }
 .practice-card .pc-sub { font-size:16px; color:var(--charcoal-muted); margin-top:6px; }
 .practice-card.eve { background:var(--charcoal-mid); }
 .quick-card { background:var(--white); border:1px solid var(--cream-mid); border-radius:var(--r); padding:16px 20px; cursor:pointer; transition:all 0.2s; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
@@ -757,6 +758,7 @@ let U = null;        // supabase user
 let profile = null;  // profile row
 let entries = [];
 let todayH = JSON.parse(localStorage.getItem('to_today_h')||'[]');
+// Will be overridden by Supabase data once user loads
 let selHD = '', selAuth = '';
 let currentFlow = null; // 'morning' or 'evening'
 let currentStep = 0;
@@ -968,7 +970,7 @@ async function doLogin() {
   U = data.user;
   await loadProfile();
   if(!profile || !profile.hd_type) { go('screen-onboard'); }
-  else { applyHD(); await loadEntries(); updateHome(); navHome(); }
+  else { applyHD(); await loadEntries(); await loadHabitsFromProfile(); loadHabits(); updateHome(); navHome(); }
 }
 
 async function doSignup() {
@@ -1459,6 +1461,35 @@ function toggleH(idx) {
   if(!todayH.includes(idx)) todayH.push(idx);
   else todayH = todayH.filter(i=>i!==idx);
   localStorage.setItem('to_today_h', JSON.stringify(todayH));
+  // Also save to Supabase profile so it survives reinstalls
+  if(U) saveHabitsToProfile();
+}
+async function saveHabitsToProfile() {
+  const today = new Date().toDateString();
+  const habitData = { date: today, habits: todayH };
+  try {
+    await sb.from('profiles').update({ today_habits: JSON.stringify(habitData) }).eq('user_id', U.id);
+  } catch(e) {}
+}
+async function loadHabitsFromProfile() {
+  // Try Supabase first, fall back to localStorage
+  if(U) {
+    try {
+      const { data } = await sb.from('profiles').select('today_habits').eq('user_id', U.id).single();
+      if(data?.today_habits) {
+        const saved = JSON.parse(data.today_habits);
+        const today = new Date().toDateString();
+        // Only restore if saved today
+        if(saved.date === today) {
+          todayH = saved.habits || [];
+          localStorage.setItem('to_today_h', JSON.stringify(todayH));
+          return;
+        }
+      }
+    } catch(e) {}
+  }
+  // Fall back to localStorage
+  todayH = JSON.parse(localStorage.getItem('to_today_h') || '[]');
 }
 function loadHabits() {
   if(!todayH.includes(1)) { todayH.push(1); localStorage.setItem('to_today_h', JSON.stringify(todayH)); }
@@ -1770,6 +1801,30 @@ async function init() {
 }
 
 init();
+</script>
+<script>
+// Register service worker for PWA stability
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function() {
+      // Service worker not found - app still works without it
+    });
+  });
+}
+
+// Prevent iOS bounce scroll which can cause freezing
+document.body.addEventListener('touchmove', function(e) {
+  if(e.target.closest('.scroll')) return;
+  e.preventDefault();
+}, { passive: false });
+
+// Handle iOS PWA visibility change - prevent freeze on resume
+document.addEventListener('visibilitychange', function() {
+  if(document.visibilityState === 'visible') {
+    // Refresh home screen state when app comes back to foreground
+    if(U) updateHome();
+  }
+});
 </script>
 </body>
 </html>
